@@ -9,6 +9,7 @@ const virstellung = ({
     },
     currentSlideParam = `v`,
     otherSearch = ``,
+    id = ``,
 }) => {
     const maxFocus = slideItems.length - 1;
     if (!currentSlide || !Number.isFinite(currentSlide) || currentSlide > maxFocus) {
@@ -46,11 +47,11 @@ const virstellung = ({
         audiomime = mime;
     }
     return `
-<article class="imageContainer" data-function="move-37+virstellungPrevious move-39+virstellungNext">
+<article class="imageContainer" data-function="move-37+virstellungPrevious move-39+virstellungNext" data-scope="${id}">
     <div class="imageContainer">
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>
-        <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden}></audio>
+        <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
     </div>
     <p>

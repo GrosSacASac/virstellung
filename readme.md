@@ -55,6 +55,10 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
         currentSlideParam, // search param for the server to respond with wanted slide 
         translate: undefined, // optional translation function
         otherSearch: undefined, // optional search to be added back in the url
+        id: undefined, // id that will be used in the html,
+        // for the event handlers to know which slide should go next
+        // (there can be multiples slides on the same page)
+        //  only required if multiple slides are used
     })}
     <script type="module" src="./virstellung.js"></script>
 </body></html>`;

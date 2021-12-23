@@ -1,11 +1,13 @@
 // globals slideItems , currentSlide
+export {stellFir};
+
 import * as d from "dom99";
 import { move } from "dom99/plugins/move/move.js";
 
 
 d.plugin(move);
-
-let { currentSlide } = window;
+window.d = d;
+let { currentSlide } = window; // todo
 const initialTitle = document.title;
 
 const virstellungPrevious = function (event) {
@@ -15,18 +17,18 @@ const virstellungPrevious = function (event) {
     if (currentSlide === -1) {
         currentSlide = slideItems.length - 1;
     }
-    displayX(currentSlide);
+    displayX(currentSlide, d.scopeFromEvent(event));
 };
 
 const virstellungNext = function (event) {
     event?.preventDefault?.();
 
     currentSlide = (currentSlide + 1) % slideItems.length;
-    displayX(currentSlide);
-    preloadX((currentSlide + 1) % slideItems.length);
+    displayX(currentSlide, d.scopeFromEvent(event));
+    preloadX((currentSlide + 1) % slideItems.length, d.scopeFromEvent(event));
 };
 
-const preloadX = function (slide) {
+const preloadX = function (slide, scope) {
     // only preload images
     const { file, mime } = slideItems[slide];
     if (mime.includes(`image`)) {
@@ -34,28 +36,29 @@ const preloadX = function (slide) {
     }
 };
 
-const displayX = function (currentSlide) {
+const displayX = function (currentSlide, scope) {
     const { file, mime, label } = slideItems[currentSlide];
     document.title = `${initialTitle} ${label}`;
-    d.elements.image.hidden = true;
-    d.elements.video.hidden = true;
-    d.elements.audio.hidden = true;
+    const {image, video, audio} = d.elements[d.scopeFromArray([scope, "image"])];
+    image.hidden = true;
+    video.hidden = true;
+    audio.hidden = true;
     if (mime.includes(`image`)) {
-        d.elements.image.alt = label;
-        d.elements.image.hidden = false;
-        d.elements.image.src = file;
-        d.elements.video.pause();
-        d.elements.audio.pause();
+        image.alt = label;
+        image.hidden = false;
+        image.src = file;
+        video.pause();
+        audio.pause();
     } else if (mime.includes(`video`)) {
-        d.elements.video.hidden = false;
-        d.elements.video.src = file;
-        d.elements.video.type = mime;
-        d.elements.audio.pause();
+        video.hidden = false;
+        video.src = file;
+        video.type = mime;
+        audio.pause();
     } else if (mime.includes(`audio`)) {
-        d.elements.audio.hidden = false;
-        d.elements.audio.src = file;
-        d.elements.audio.type = mime;
-        d.elements.video.pause();
+        audio.hidden = false;
+        audio.src = file;
+        audio.type = mime;
+        video.pause();
     }
     if (navigator.mediaSession) {
         navigator.mediaSession.metadata = new MediaMetadata({
@@ -64,14 +67,18 @@ const displayX = function (currentSlide) {
     }
 };
 
-d.elements.audio.addEventListener(`ended`, function () {
-    if (d.elements.audio.loop) {
-        return;
-    }
-    virstellungNext();
-});
-d.elements.audio.volume = 0.5;
-d.elements.video.volume = 0.5;
+const stellFir = (id=``) => {
+    d.start({
+        dataFunctions: {
+            virstellungNext,
+            virstellungPrevious,
+        },
+    });
+    
+    d.elements[d.scopeFromArray([id, "audio"])].volume = 0.5;
+    d.elements[d.scopeFromArray([id, "video"])].volume = 0.5;
+
+}
 
 try {
     navigator.mediaSession.setActionHandler(`nexttrack`, virstellungNext);
@@ -79,10 +86,3 @@ try {
 } catch (error) {
     //
 }
-
-d.start({
-    dataFunctions: {
-        virstellungNext,
-        virstellungPrevious,
-    },
-});
