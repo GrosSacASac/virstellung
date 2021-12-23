@@ -8,7 +8,7 @@ d.plugin(move);
 let { currentSlide } = window;
 const initialTitle = document.title;
 
-const virstellungPreviousSlide = function (event) {
+const virstellungPrevious = function (event) {
     event?.preventDefault?.();
 
     currentSlide = currentSlide - 1;
@@ -18,7 +18,7 @@ const virstellungPreviousSlide = function (event) {
     displayX(currentSlide);
 };
 
-const nextSlide = function (event) {
+const virstellungNext = function (event) {
     event?.preventDefault?.();
 
     currentSlide = (currentSlide + 1) % slideItems.length;
@@ -68,21 +68,21 @@ d.elements.audio.addEventListener(`ended`, function () {
     if (d.elements.audio.loop) {
         return;
     }
-    nextSlide();
+    virstellungNext();
 });
 d.elements.audio.volume = 0.5;
 d.elements.video.volume = 0.5;
 
 try {
-    navigator.mediaSession.setActionHandler(`nexttrack`, nextSlide);
-    navigator.mediaSession.setActionHandler(`previoustrack`, virstellungPreviousSlide);
+    navigator.mediaSession.setActionHandler(`nexttrack`, virstellungNext);
+    navigator.mediaSession.setActionHandler(`previoustrack`, virstellungPrevious);
 } catch (error) {
     //
 }
 
 d.start({
     dataFunctions: {
-        next: nextSlide,
-        previous: virstellungPreviousSlide,
+        virstellungNext,
+        virstellungPrevious,
     },
 });

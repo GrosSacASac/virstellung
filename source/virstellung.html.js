@@ -46,7 +46,7 @@ const virstellung = ({
         audiomime = mime;
     }
     return `
-<article class="imageContainer" data-function="move-37+virstellungPrevious move-39+next">
+<article class="imageContainer" data-function="move-37+virstellungPrevious move-39+virstellungNext">
     <div class="imageContainer">
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>
@@ -54,8 +54,8 @@ const virstellung = ({
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
     </div>
     <p>
-        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="previous">⬅ ${translate(`Précédent`)}</a>
-        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${nextSlide}" data-function="next">${translate(`Suivant`)} ➡</a>
+        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="virstellungPrevious">⬅ ${translate(`Précédent`)}</a>
+        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${nextSlide}" data-function="virstellungNext">${translate(`Suivant`)} ➡</a>
     </p>
     <script type="module">
         window.slideItems = ${JSON.stringify(slideItems)};
