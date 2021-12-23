@@ -46,7 +46,7 @@ const virstellung = ({
         audiomime = mime;
     }
     return `
-<article class="imageContainer" data-function="move-37+previous move-39+next">
+<article class="imageContainer" data-function="move-37+virstellungPrevious move-39+next">
     <div class="imageContainer">
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>

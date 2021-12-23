@@ -8,7 +8,7 @@ d.plugin(move);
 let { currentSlide } = window;
 const initialTitle = document.title;
 
-const previousSlide = function (event) {
+const virstellungPreviousSlide = function (event) {
     event?.preventDefault?.();
 
     currentSlide = currentSlide - 1;
@@ -75,7 +75,7 @@ d.elements.video.volume = 0.5;
 
 try {
     navigator.mediaSession.setActionHandler(`nexttrack`, nextSlide);
-    navigator.mediaSession.setActionHandler(`previoustrack`, previousSlide);
+    navigator.mediaSession.setActionHandler(`previoustrack`, virstellungPreviousSlide);
 } catch (error) {
     //
 }
@@ -83,6 +83,6 @@ try {
 d.start({
     dataFunctions: {
         next: nextSlide,
-        previous: previousSlide,
+        previous: virstellungPreviousSlide,
     },
 });
