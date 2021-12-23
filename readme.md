@@ -24,7 +24,7 @@ import { virstellung } from "virstellung";
 import mime from "mime"; // not included
 
 
-const slideItems = [
+const items = [
     "image1.jpg",
     "video.mp4",
 ];
@@ -33,8 +33,8 @@ const mediaFolder = "media";
 
 // must be completely safe to inserted into html
 // make sure to validate or escape
-// in this example the slideItems are hardcoded so there is no problem
-const preparedSlideItems = slideItems.map(item => {
+// in this example the items are hardcoded so there is no problem
+const preparedSlideItems = items.map(item => {
     return {
         label: item,
         file: `./${mediaFolder}/${item}`,
@@ -49,13 +49,13 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
     <meta name="viewport" content="width=device-width">
     <link media="screen" href="./virstellung.css" rel="stylesheet">
     </head><body>    
-    ${virstellung(
-        preparedSlideItems, // array with {label, file, mime}
-        i, // current slide
-        undefined, // optional translation function
-        currentSlideParam, // added a search param 
-        undefined, // optional search to be added back in the url
-    )}
+    ${virstellung({
+        slideItems: preparedSlideItems, // array with {label, file, mime}
+        currentSlide: i, // current slide
+        currentSlideParam, // search param for the server to respond with wanted slide 
+        translate: undefined, // optional translation function
+        otherSearch: undefined, // optional search to be added back in the url
+    })}
     <script type="module" src="./virstellung.js"></script>
 </body></html>`;
 });

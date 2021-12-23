@@ -1,4 +1,4 @@
-// globals filesToDisplayInline , currentSlide
+// globals slideItems , currentSlide
 import * as d from "dom99";
 import { move } from "dom99/plugins/move/move.js";
 
@@ -14,7 +14,7 @@ const previousSlide = function (event) {
     }
     currentSlide = currentSlide - 1;
     if (currentSlide === -1) {
-        currentSlide = filesToDisplayInline.length - 1;
+        currentSlide = slideItems.length - 1;
     }
     displayX(currentSlide);
 };
@@ -23,21 +23,21 @@ const nextSlide = function (event) {
     if (event && event.preventDefault) {
         event.preventDefault();
     }
-    currentSlide = (currentSlide + 1) % filesToDisplayInline.length;
+    currentSlide = (currentSlide + 1) % slideItems.length;
     displayX(currentSlide);
-    preloadX((currentSlide + 1) % filesToDisplayInline.length);
+    preloadX((currentSlide + 1) % slideItems.length);
 };
 
 const preloadX = function (slide) {
     // only preload images
-    const { file, mime } = filesToDisplayInline[slide];
+    const { file, mime } = slideItems[slide];
     if (mime.includes(`image`)) {
         d.elements.preloader.src = file;
     }
 };
 
 const displayX = function (currentSlide) {
-    const { file, mime, label } = filesToDisplayInline[currentSlide];
+    const { file, mime, label } = slideItems[currentSlide];
     document.title = `${initialTitle} ${label}`;
     d.elements.image.hidden = true;
     d.elements.video.hidden = true;

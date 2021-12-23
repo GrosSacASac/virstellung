@@ -1,24 +1,24 @@
 export {virstellung};
 
 
-const virstellung = (
-    filesToDisplayInline = [],
+const virstellung = ({
+    slideItems,
     currentSlide = 0,
-    t = function(code) {
+    translate = function(code) {
         return code;
     },
     currentSlideParam = `v`,
     otherSearch = ``,
-) => {
-    const maxFocus = filesToDisplayInline.length - 1;
+}) => {
+    const maxFocus = slideItems.length - 1;
     if (!currentSlide || !Number.isFinite(currentSlide) || currentSlide > maxFocus) {
         currentSlide = 0;
     }
     // duplicated in script below
-    const nextSlide = (currentSlide + 1) % filesToDisplayInline.length;
+    const nextSlide = (currentSlide + 1) % slideItems.length;
     let previousSlide = currentSlide - 1;
     if (previousSlide === -1) {
-        previousSlide = filesToDisplayInline.length - 1;
+        previousSlide = slideItems.length - 1;
     }
 
     let imagesrc = ``;
@@ -31,7 +31,7 @@ const virstellung = (
     let audioHidden = `hidden`;
     let videoHidden = `hidden`;
     
-    const {file, mime, label} = filesToDisplayInline[currentSlide];
+    const {file, mime, label} = slideItems[currentSlide];
     if (mime.includes(`image`)) {
         imageHidden = ``;
         imagealt = label;
@@ -54,11 +54,11 @@ const virstellung = (
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
     </div>
     <p>
-        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="previous">⬅ ${t(`Précédent`)}</a>
-        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${nextSlide}" data-function="next">${t(`Suivant`)} ➡</a>
+        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="previous">⬅ ${translate(`Précédent`)}</a>
+        <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${nextSlide}" data-function="next">${translate(`Suivant`)} ➡</a>
     </p>
     <script type="module">
-        window.filesToDisplayInline = ${JSON.stringify(filesToDisplayInline)};
+        window.slideItems = ${JSON.stringify(slideItems)};
         window.currentSlide = ${currentSlide};
     </script>
 </article>`;
