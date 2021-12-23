@@ -1,0 +1,43 @@
+img, video, audio {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
+
+body {
+    margin:0;
+    padding:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #eee;
+    background-image: linear-gradient(315deg, #0000e3 , #ea2222);
+}
+
+.imageContainer {
+    display: block;
+    width: 99%;
+    height: 91%;
+    margin: auto;
+}
+
+p {
+    margin: 0;
+    height: 8%;
+    text-align: center;
+}
+
+.navbutton {
+    color: black;
+    background-color: #eee;
+    border: solid;
+}
+
+.navbutton:hover {
+    color: black;
+    background-color: #89ff89;
+}
+
+[hidden] {
+    display:none;
+}

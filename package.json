@@ -1,0 +1,44 @@
+{
+  "name": "stream-sac",
+  "version": "1.0.0",
+  "description": "Slide show",
+  "license": "CC0-1.0",
+  "type": "module",
+  "main": "source/virstellung.html.js",
+  "scripts": {
+    "lint-fix": "eslint --ignore-path .gitignore --fix .",
+    "lint": "eslint --ignore-path .gitignore ."
+  },
+  "optionalDependencies": {
+    "dom99": "^24.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "red"
+    ],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "ecmaFeatures": {}
+    },
+    "env": {
+      "es2022": true,
+      "browser": true,
+      "node": true
+    }
+  },
+  "files": [
+    "source",
+    "readme.md",
+    "license.txt",
+    "changelog.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/GrosSacASac/stream-sac.git"
+  },
+  "keywords": [
+    "slide",
+    "show"
+  ]
+}
