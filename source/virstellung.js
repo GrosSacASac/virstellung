@@ -59,7 +59,7 @@ const displayX = function (currentSlide) {
         d.elements.audio.type = mime;
         d.elements.video.pause();
     }
-    if (`mediaSession` in navigator) {
+    if (navigator.mediaSession) {
         navigator.mediaSession.metadata = new MediaMetadata({
             title: file,
         });

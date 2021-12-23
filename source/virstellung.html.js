@@ -4,7 +4,9 @@ export {virstellung};
 const virstellung = (
     filesToDisplayInline = [],
     currentSlide = 0,
-    t = function(){},
+    t = function(code) {
+        return code;
+    },
     currentSlideParam = `v`,
     otherSearch = ``,
 ) => {
