@@ -9,9 +9,8 @@ let { currentSlide } = window;
 const initialTitle = document.title;
 
 const previousSlide = function (event) {
-    if (event && event.preventDefault) {
-        event.preventDefault();
-    }
+    event?.preventDefault?.();
+
     currentSlide = currentSlide - 1;
     if (currentSlide === -1) {
         currentSlide = slideItems.length - 1;
@@ -20,9 +19,8 @@ const previousSlide = function (event) {
 };
 
 const nextSlide = function (event) {
-    if (event && event.preventDefault) {
-        event.preventDefault();
-    }
+    event?.preventDefault?.();
+
     currentSlide = (currentSlide + 1) % slideItems.length;
     displayX(currentSlide);
     preloadX((currentSlide + 1) % slideItems.length);
@@ -66,13 +64,6 @@ const displayX = function (currentSlide) {
     }
 };
 
-
-d.start({
-    dataFunctions: {
-        next: nextSlide,
-        previous: previousSlide,
-    },
-});
 d.elements.audio.addEventListener(`ended`, function () {
     if (d.elements.audio.loop) {
         return;
@@ -82,26 +73,16 @@ d.elements.audio.addEventListener(`ended`, function () {
 d.elements.audio.volume = 0.5;
 d.elements.video.volume = 0.5;
 
-const actionHandlers = [
-    // play
-    [
-        `nexttrack`,
-        function () {
-            nextSlide();
-        },
-    ],
-    [
-        `previoustrack`,
-        () => {
-            previousSlide();
-        },
-    ],
-];
-
-for (const [action, handler] of actionHandlers) {
-    try {
-        navigator.mediaSession.setActionHandler(action, handler);
-    } catch (error) {
-        //
-    }
+try {
+    navigator.mediaSession.setActionHandler(`nexttrack`, nextSlide);
+    navigator.mediaSession.setActionHandler(`previoustrack`, previousSlide);
+} catch (error) {
+    //
 }
+
+d.start({
+    dataFunctions: {
+        next: nextSlide,
+        previous: previousSlide,
+    },
+});
