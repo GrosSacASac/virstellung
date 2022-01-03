@@ -58,10 +58,8 @@ const virstellung = ({
         <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="virstellungPrevious">⬅ ${translate(`Précédent`)}</a>
         <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${nextSlide}" data-function="virstellungNext">${translate(`Suivant`)} ➡</a>
     </p>
-    <script type="module">
-        window.slideItems = ${JSON.stringify(slideItems)};
-        window.currentSlide = ${currentSlide};
-    </script>
+    <input data-variable="currentSlide" type="hidden" value="${currentSlide}">
+    <script data-variable="slideItems" type="text/json">${JSON.stringify(slideItems)}</script>
 </article>`;
 };
 

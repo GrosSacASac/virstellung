@@ -1,4 +1,3 @@
-// globals slideItems , currentSlide
 export {stellFir};
 
 import * as d from "dom99";
@@ -7,39 +6,51 @@ import { move } from "dom99/plugins/move/move.js";
 
 d.plugin(move);
 window.d = d;
-let { currentSlide } = window; // todo
 const initialTitle = document.title;
-
+const slideItemsFromScope = (scope) => {
+    return JSON.parse(d.get(scope, "slideItems"));
+}
 const virstellungPrevious = function (event) {
     event?.preventDefault?.();
 
+    const scope = d.scopeFromEvent(event);
+    let currentSlide = Number(d.get(scope, "currentSlide"));
+    
     currentSlide = currentSlide - 1;
     if (currentSlide === -1) {
+        const slideItems = slideItemsFromScope(scope);
         currentSlide = slideItems.length - 1;
     }
-    displayX(currentSlide, d.scopeFromEvent(event));
+    displayX(currentSlide, scope);
 };
 
 const virstellungNext = function (event) {
     event?.preventDefault?.();
 
-    currentSlide = (currentSlide + 1) % slideItems.length;
-    displayX(currentSlide, d.scopeFromEvent(event));
-    preloadX((currentSlide + 1) % slideItems.length, d.scopeFromEvent(event));
+    const scope = d.scopeFromEvent(event);
+    const slideItems = slideItemsFromScope(scope);
+    let currentSlide = (Number(d.get(scope, "currentSlide")) + 1) % slideItems.length;
+    displayX(currentSlide, scope);
+    preloadX((currentSlide + 1) % slideItems.length, scope);
 };
 
 const preloadX = function (slide, scope) {
     // only preload images
+    const slideItems = slideItemsFromScope(scope);
     const { file, mime } = slideItems[slide];
     if (mime.includes(`image`)) {
-        d.elements.preloader.src = file;
+        d.elements[d.scopeFromArray([scope, "preloader"])].src = file;
     }
 };
 
 const displayX = function (currentSlide, scope) {
+    const slideItems = slideItemsFromScope(scope);
     const { file, mime, label } = slideItems[currentSlide];
+    d.feed(d.scopeFromArray([scope, "currentSlide"]), String(currentSlide));
     document.title = `${initialTitle} ${label}`;
-    const {image, video, audio} = d.elements[d.scopeFromArray([scope, "image"])];
+    const image = d.elements[d.scopeFromArray([scope, "image"])];
+    const video = d.elements[d.scopeFromArray([scope, "video"])];
+    const audio = d.elements[d.scopeFromArray([scope, "audio"])];
     image.hidden = true;
     video.hidden = true;
     audio.hidden = true;
