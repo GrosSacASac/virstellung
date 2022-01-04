@@ -7,13 +7,18 @@ import { move } from "dom99/plugins/move/move.js";
 d.plugin(move);
 window.d = d;
 const initialTitle = document.title;
+// used for media keys
+let lastScope;
+
 const slideItemsFromScope = (scope) => {
     return JSON.parse(d.get(scope, "slideItems"));
 }
+
 const virstellungPrevious = function (event) {
     event?.preventDefault?.();
 
-    const scope = d.scopeFromEvent(event);
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    lastScope = scope;
     let currentSlide = Number(d.get(scope, "currentSlide"));
     
     currentSlide = currentSlide - 1;
@@ -27,7 +32,8 @@ const virstellungPrevious = function (event) {
 const virstellungNext = function (event) {
     event?.preventDefault?.();
 
-    const scope = d.scopeFromEvent(event);
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    lastScope = scope;
     const slideItems = slideItemsFromScope(scope);
     let currentSlide = (Number(d.get(scope, "currentSlide")) + 1) % slideItems.length;
     displayX(currentSlide, scope);
@@ -88,7 +94,7 @@ const stellFir = (id=``) => {
     
     d.elements[d.scopeFromArray([id, "audio"])].volume = 0.5;
     d.elements[d.scopeFromArray([id, "video"])].volume = 0.5;
-
+    lastScope = lastScope ?? id; 
 }
 
 try {
