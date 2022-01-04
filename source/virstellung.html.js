@@ -47,7 +47,8 @@ const virstellung = ({
         audiomime = mime;
     }
     return `
-<article class="imageContainer" data-function="move-37+virstellungPrevious move-39+virstellungNext" data-scope="${id}">
+<article class="imageContainer" data-scope="${id}">
+<div data-function="move-37+virstellungPrevious move-39+virstellungNext"  tabindex="0">
     <div class="imageContainer">
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>
@@ -60,6 +61,7 @@ const virstellung = ({
     </p>
     <input data-variable="currentSlide" type="hidden" value="${currentSlide}">
     <script data-variable="slideItems" type="text/json">${JSON.stringify(slideItems)}</script>
+</div>
 </article>`;
 };
 
