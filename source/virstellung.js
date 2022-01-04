@@ -1,10 +1,10 @@
 export {stellFir};
 
 import * as d from "dom99";
-import { move } from "dom99/plugins/move/move.js";
+import { keyboard } from "dom99/plugins/keyboard/keyboard.js";
 
 
-d.plugin(move);
+d.plugin(keyboard);
 window.d = d;
 const initialTitle = document.title;
 // used for media keys

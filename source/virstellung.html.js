@@ -48,7 +48,7 @@ const virstellung = ({
     }
     return `
 <article class="virstellung" data-scope="${id}">
-<div data-function="move-37+virstellungPrevious move-39+virstellungNext"  tabindex="0">
+<div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
     <div class="imageContainer">
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>
