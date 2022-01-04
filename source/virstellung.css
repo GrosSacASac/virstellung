@@ -17,13 +17,13 @@
 .imageContainer {
     display: block;
     width: 99%;
-    height: 99%;
+    height: 91%; /* let space for below .virstellung p */
     /* margin: auto; */
 }
 
 .virstellung img, .virstellung video, .virstellung audio {
     object-fit: contain;
-    height: 91%; /* let space for below .virstellung p */
+    height: 100%;
     width: 100%;
     background-color: transparent;
 }
