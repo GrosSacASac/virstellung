@@ -1,15 +1,16 @@
 export {virstellung};
 
-
-const virstellung = ({
+const identity = function(x) {
+    return x;
+}
+const virstellung = async ({
     slideItems,
     currentSlide = 0,
-    translate = function(code) {
-        return code;
-    },
+    translate = identity,
     currentSlideParam = `v`,
     otherSearch = ``,
     id = ``,
+    getText = identity,
 }) => {
     const maxFocus = slideItems.length - 1;
     if (!currentSlide || !Number.isFinite(currentSlide) || currentSlide > maxFocus) {
@@ -28,23 +29,28 @@ const virstellung = ({
     let audiomime = ``;
     let videosrc = ``;
     let videmime = ``;
+    let text = ``;
     let imageHidden = `hidden`;
     let audioHidden = `hidden`;
     let videoHidden = `hidden`;
+    let textHidden = `hidden`;
     
     const {file, mime, label} = slideItems[currentSlide];
-    if (mime.includes(`image`)) {
+    if (mime.startsWith(`image`)) {
         imageHidden = ``;
         imagealt = label;
         imagesrc = file;
-    } else if (mime.includes(`video`)) {
+    } else if (mime.startsWith(`video`)) {
         videoHidden = ``;
         videosrc = file;
         videmime = mime;
-    } else if (mime.includes(`audio`)) {
+    } else if (mime.startsWith(`audio`)) {
         audioHidden = ``;
         audiosrc = file;
         audiomime = mime;
+    } else if (mime.startsWith(`text`)) {
+        textHidden = ``;
+        text = await getText(file);
     }
     return `
 <article class="virstellung" data-scope="${id}">
@@ -54,6 +60,7 @@ const virstellung = ({
         <img data-element="preloader" hidden>
         <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
+        <pre data-element="text" ${textHidden}>${text}</pre>
     </div>
     <p>
         <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="virstellungPrevious">⬅ ${translate(`Précédent`)}</a>

@@ -60,18 +60,18 @@ const displayX = function (currentSlide, scope) {
     image.hidden = true;
     video.hidden = true;
     audio.hidden = true;
-    if (mime.includes(`image`)) {
+    if (mime.startsWith(`image`)) {
         image.alt = label;
         image.hidden = false;
         image.src = file;
         video.pause();
         audio.pause();
-    } else if (mime.includes(`video`)) {
+    } else if (mime.startsWith(`video`)) {
         video.hidden = false;
         video.src = file;
         video.type = mime;
         audio.pause();
-    } else if (mime.includes(`audio`)) {
+    } else if (mime.startsWith(`audio`)) {
         audio.hidden = false;
         audio.src = file;
         audio.type = mime;

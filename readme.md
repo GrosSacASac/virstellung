@@ -59,6 +59,10 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
         // for the event handlers to know which slide should go next
         // (there can be multiples slides on the same page)
         //  only required if multiple slides are used
+        getText: undefined, // function used to get the text content (server side)
+        // may be async
+        // needed because there is no native html include yet
+        // the text should be html escaped 
     })}
     <script type="module" src="./virstellungAutoLaunch.js"></script>
 </body></html>`;
@@ -77,7 +81,7 @@ Depends upon [dom99](https://www.npmjs.com/package/dom99)
 
 ## virstellung.js
 
-Alternative to virstellungAutoLaunch, does nothing by itself, exports a function stellFir. Use it with the same id as used before for virstellung function
+Alternative to virstellungAutoLaunch, does nothing by itself, exports a function `stellFir`. Use it with the same id as used before for virstellung function
 
 
 ## virstellung.css
