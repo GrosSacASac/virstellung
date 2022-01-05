@@ -4,6 +4,7 @@ import * as d from "dom99";
 import { keyboard } from "dom99/plugins/keyboard/keyboard.js";
 
 
+const e0 = `error loading`;
 d.plugin(keyboard);
 window.d = d;
 const initialTitle = document.title;
@@ -57,6 +58,8 @@ const displayX = function (currentSlide, scope) {
     const image = d.elements[d.scopeFromArray([scope, "image"])];
     const video = d.elements[d.scopeFromArray([scope, "video"])];
     const audio = d.elements[d.scopeFromArray([scope, "audio"])];
+    const text = d.elements[d.scopeFromArray([scope, "text"])];
+    text.hidden = true;
     image.hidden = true;
     video.hidden = true;
     audio.hidden = true;
@@ -76,6 +79,20 @@ const displayX = function (currentSlide, scope) {
         audio.src = file;
         audio.type = mime;
         video.pause();
+    } else if (mime.startsWith(`text`)) {
+        text.hidden = false;
+        video.pause();
+        audio.pause();
+        fetch(file).then(response => {
+            if (!response.ok) {
+                throw e0;
+            }
+            return response.text();
+        }).then(responseAsString => {
+            d.feed(d.scopeFromArray([scope, "text"]), responseAsString);
+        }).catch(error => {
+            d.feed(d.scopeFromArray([scope, "text"]), e0);
+        });
     }
     if (navigator.mediaSession) {
         navigator.mediaSession.metadata = new MediaMetadata({

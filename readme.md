@@ -34,10 +34,12 @@ const mediaFolder = "media";
 // must be completely safe to inserted into html
 // make sure to validate or escape
 // in this example the items are hardcoded so there is no problem
+// fileAlone will be passed to getText (if any text is present)
 const preparedSlideItems = items.map(item => {
     return {
         label: item,
         file: `./${mediaFolder}/${item}`,
+        fileAlone: item,
         mime: mime.getType(item),
     }
 });

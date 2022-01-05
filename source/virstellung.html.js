@@ -50,7 +50,8 @@ const virstellung = async ({
         audiomime = mime;
     } else if (mime.startsWith(`text`)) {
         textHidden = ``;
-        text = await getText(file);
+        const {fileAlone} = slideItems[currentSlide];
+        text = await getText(fileAlone);
     }
     return `
 <article class="virstellung" data-scope="${id}">
@@ -60,7 +61,7 @@ const virstellung = async ({
         <img data-element="preloader" hidden>
         <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
-        <pre data-element="text" ${textHidden}>${text}</pre>
+        <pre data-element="text" data-variable="text" ${textHidden}>${text}</pre>
     </div>
     <p>
         <a class="navbutton" href="?${otherSearch}&${currentSlideParam}=${previousSlide}" data-function="virstellungPrevious">⬅ ${translate(`Précédent`)}</a>
