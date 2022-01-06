@@ -1,5 +1,6 @@
-export {virstellung};
+export {virstellung, canDisplayInline};
 
+const canDisplayInline = [`video`, `image`, `audio`, `text`];
 const identity = function(x) {
     return x;
 }
