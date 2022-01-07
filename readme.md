@@ -15,7 +15,8 @@ switch to the next/previous slide without a full page refresh.
 
 ## virstellung.html.js
 
-Function that generates html code. This code should be inserted into the `<body>`
+Function that generates html code. This code should be inserted into the `<body>`.
+If getText is used, it returns a promise, otherwise it returns a string
 
 ### Example
 
@@ -51,7 +52,7 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
     <meta name="viewport" content="width=device-width">
     <link media="screen" href="./virstellung.css" rel="stylesheet">
     </head><body>    
-    ${virstellung({
+    ${await virstellung({
         slideItems: preparedSlideItems, // array with {label, file, mime}
         currentSlide: i, // current slide
         currentSlideParam, // search param for the server to respond with wanted slide 

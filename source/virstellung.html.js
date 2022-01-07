@@ -4,7 +4,7 @@ const canDisplayInline = [`video`, `image`, `audio`, `text`];
 const identity = function(x) {
     return x;
 }
-const virstellung = async ({
+const virstellung = ({
     slideItems,
     currentSlide = 0,
     translate = identity,
@@ -51,8 +51,23 @@ const virstellung = async ({
         audiomime = mime;
     } else if (mime.startsWith(`text`)) {
         textHidden = ``;
-        const {fileAlone} = slideItems[currentSlide];
-        text = await getText(fileAlone);
+        const {fileAlone, temp} = slideItems[currentSlide];
+        if (temp) {
+            text = temp;
+            delete slideItems[currentSlide].temp;
+        } else {
+            return Promise.resolve(getText(fileAlone)).then(text => {
+                slideItems[currentSlide].temp = text;
+                return virstellung({
+                    slideItems,
+                    currentSlide,
+                    translate,
+                    currentSlideParam,
+                    otherSearch,
+                    id,
+                })
+            });
+        }
     }
     return `
 <article class="virstellung" data-scope="${id}">
