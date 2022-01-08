@@ -64,8 +64,7 @@ const virstellung = ({
                     slideItems,
                     currentSlide,
                     translate,
-                    currentSlideParam,
-                    otherSearch,
+                    generateHref,
                     id,
                 })
             });
