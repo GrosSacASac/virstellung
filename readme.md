@@ -47,6 +47,10 @@ const preparedSlideItems = items.map(item => {
 
 const currentSlideParam = "currentslide";
 
+const generateHref = function (index, item) {
+    return `./slide-${index}.html`;
+};
+
 const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
     return `<!doctype html><html><head>
     <meta name="viewport" content="width=device-width">
@@ -55,9 +59,8 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
     ${await virstellung({
         slideItems: preparedSlideItems, // array with {label, file, mime}
         currentSlide: i, // current slide
-        currentSlideParam, // search param for the server to respond with wanted slide 
+        generateHref, // href used in the links for next, previous
         translate: undefined, // optional translation function
-        otherSearch: undefined, // optional search to be added back in the url
         id: undefined, // id that will be used in the html,
         // for the event handlers to know which slide should go next
         // (there can be multiples slides on the same page)
