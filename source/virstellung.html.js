@@ -74,6 +74,8 @@ const virstellung = ({
 <article class="virstellung" data-scope="${id}">
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
     <div class="imageContainer">
+        <picture ${pictureHidden}>
+        
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>
         <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
