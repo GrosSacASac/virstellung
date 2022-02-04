@@ -96,6 +96,39 @@ Optional
 
 Serve it to inside `<link media="screen" href="./virstellung.css" rel="stylesheet">` in the `<head>`. Again, your server should serve this file.
 
+## Progressive Enhancement
+
+### Multiple Image resolution
+
+If there are multiple resolutions or formats for 1 image you may instead of using file, use a files array, with object that have file, mime and media (breakpoints).
+
+Make slideItems have items be like :
+
+```js
+slideItems = [
+{
+    label: `flower`,
+    mime: `image`,
+    files: [
+        {
+            file: `./imgfull.jpg`,
+            media: `(min-width: 2000px)`,
+            mime: `image/jpg`,
+        },
+        {
+            file: `./goodenough.jpg`,
+            media: `(min-width: 1000px)`,
+            mime: `image/jpg`,
+        },
+        {
+            // last should be fallback without media
+            file: `./fallback.jpg`,
+            mime: `image/jpg`,
+        }
+    ]
+}
+];
+```
 
 ## About
 

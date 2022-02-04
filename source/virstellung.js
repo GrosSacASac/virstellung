@@ -52,21 +52,42 @@ const preloadX = function (slide, scope) {
 
 const displayX = function (currentSlide, scope) {
     const slideItems = slideItemsFromScope(scope);
-    const { file, mime, label } = slideItems[currentSlide];
+    const { file, mime, label, files } = slideItems[currentSlide];
     d.feed(d.scopeFromArray([scope, "currentSlide"]), String(currentSlide));
     document.title = `${initialTitle} ${label}`;
     const image = d.elements[d.scopeFromArray([scope, "image"])];
+    const picture = d.elements[d.scopeFromArray([scope, "picture"])];
     const video = d.elements[d.scopeFromArray([scope, "video"])];
     const audio = d.elements[d.scopeFromArray([scope, "audio"])];
     const text = d.elements[d.scopeFromArray([scope, "text"])];
     text.hidden = true;
+    picture.hidden = true;
     image.hidden = true;
     video.hidden = true;
     audio.hidden = true;
+    
     if (mime.startsWith(`image`)) {
-        image.alt = label;
-        image.hidden = false;
-        image.src = file;
+        if (files) {
+            picture.hidden = false;
+            let pictureInnerHtml = ``;
+            files.forEach((imageVersion, i) => {
+                const {mime, file, media} = imageVersion;
+                let sourceHtml;
+                if (i + 1 < files.length) {
+                    sourceHtml = `<source srcset="${file}" media="${media}" type="${mime}"></source>`;
+
+                } else {
+                    // last source should be fallback image
+                    sourceHtml = `<img alt="${label}" src="${file}" type="${mime}">`;
+                }
+                pictureInnerHtml = `${pictureInnerHtml}${sourceHtml}`;
+            });
+            picture.innerHTML = pictureInnerHtml;
+        } else {
+            image.alt = label;
+            image.hidden = false;
+            image.src = file;
+        }
         video.pause();
         audio.pause();
     } else if (mime.startsWith(`video`)) {

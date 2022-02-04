@@ -26,6 +26,7 @@ const virstellung = ({
         previousSlide = slideItems.length - 1;
     }
 
+    let pictureInnerHtml = ``;
     let imagesrc = ``;
     let imagealt = ``;
     let audiosrc = ``;
@@ -34,15 +35,33 @@ const virstellung = ({
     let videmime = ``;
     let text = ``;
     let imageHidden = `hidden`;
+    let pictureHidden = `hidden`;
     let audioHidden = `hidden`;
     let videoHidden = `hidden`;
     let textHidden = `hidden`;
     
-    const {file, mime, label} = slideItems[currentSlide];
+    const {file, mime, label, files} = slideItems[currentSlide];
     if (mime.startsWith(`image`)) {
-        imageHidden = ``;
-        imagealt = label;
-        imagesrc = file;
+        if (files) {
+            files.forEach((imageVersion, i) => {
+                const {mime, file, media} = imageVersion;
+                let sourceHtml;
+                if (i + 1 < files.length) {
+                    sourceHtml = `<source srcset="${file}" media="${media}" type="${mime}"></source>`;
+
+                } else {
+                    // last source should be fallback image
+                    sourceHtml = `<img alt="${label}" src="${file}" type="${mime}">`;
+                }
+                pictureInnerHtml = `${pictureInnerHtml}${sourceHtml}`;
+            });
+            
+            pictureHidden = ``;
+        } else {
+            imageHidden = ``;
+            imagealt = label;
+            imagesrc = file;
+        }
     } else if (mime.startsWith(`video`)) {
         videoHidden = ``;
         videosrc = file;
@@ -74,8 +93,9 @@ const virstellung = ({
 <article class="virstellung" data-scope="${id}">
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
     <div class="imageContainer">
-        <picture ${pictureHidden}>
-        
+        <picture ${pictureHidden} data-element="picture">
+            ${pictureInnerHtml}
+        </picture>
         <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
         <img data-element="preloader" hidden>
         <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>

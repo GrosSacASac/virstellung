@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 2.1.0
+
+support multiple image resolution for 1 item
+
 ## 2.0.0
 
 virstellung takes an an argument `generateHref`(index, item) instead of trying to make href be 
