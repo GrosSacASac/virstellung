@@ -47,7 +47,7 @@ const virstellung = ({
                 const {mime, file, media} = imageVersion;
                 let sourceHtml;
                 if (i + 1 < files.length) {
-                    sourceHtml = `<source srcset="${file}" media="${media}" type="${mime}"></source>`;
+                    sourceHtml = `<source srcset="${file}" media="${media}" type="${mime}">`;
 
                 } else {
                     // last source should be fallback image
