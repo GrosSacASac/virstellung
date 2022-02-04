@@ -113,17 +113,17 @@ slideItems = [
         {
             file: `./imgfull.jpg`,
             media: `(min-width: 2000px)`,
-            mime: `image/jpg`,
+            mime: `image/jpeg`,
         },
         {
             file: `./goodenough.jpg`,
             media: `(min-width: 1000px)`,
-            mime: `image/jpg`,
+            mime: `image/jpeg`,
         },
         {
             // last should be fallback without media
             file: `./fallback.jpg`,
-            mime: `image/jpg`,
+            mime: `image/jpeg`,
         }
     ]
 }
