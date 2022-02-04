@@ -45,7 +45,7 @@ const preloadX = function (slide, scope) {
     // only preload images
     const slideItems = slideItemsFromScope(scope);
     const { file, mime } = slideItems[slide];
-    if (mime.includes(`image`)) {
+    if (mime.includes(`image`) && file) {
         d.elements[d.scopeFromArray([scope, "preloader"])].src = file;
     }
 };
