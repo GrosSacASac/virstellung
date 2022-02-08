@@ -103,8 +103,8 @@ const virstellung = ({
         <pre data-element="text" data-variable="text" ${textHidden}>${text}</pre>
     </div>
     <p>
-        <a class="navbutton" href="${generateHref(previousSlide)}" data-function="virstellungPrevious">⬅ ${translate(`Précédent`)}</a>
-        <a class="navbutton" href="${generateHref(nextSlide)}" data-function="virstellungNext">${translate(`Suivant`)} ➡</a>
+        <a class="navbutton" href="${generateHref(previousSlide)}" data-function="virstellungPreviousCancel">⬅ ${translate(`Précédent`)}</a>
+        <a class="navbutton" href="${generateHref(nextSlide)}" data-function="virstellungNextCancel">${translate(`Suivant`)} ➡</a>
     </p>
     <input data-variable="currentSlide" type="hidden" value="${currentSlide}">
     <script data-variable="slideItems" type="text/json">${JSON.stringify(slideItems)}</script>

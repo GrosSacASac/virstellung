@@ -15,9 +15,12 @@ const slideItemsFromScope = (scope) => {
     return JSON.parse(d.get(scope, "slideItems"));
 }
 
-const virstellungPrevious = function (event) {
+const virstellungPreviousCancel = function (event) {
     event?.preventDefault?.();
+    return virstellungPrevious(event);
+};
 
+const virstellungPrevious = function (event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
     let currentSlide = Number(d.get(scope, "currentSlide"));
@@ -30,9 +33,12 @@ const virstellungPrevious = function (event) {
     displayX(currentSlide, scope);
 };
 
-const virstellungNext = function (event) {
+const virstellungNextCancel = function (event) {
     event?.preventDefault?.();
+    return virstellungNext(event);
+};
 
+const virstellungNext = function (event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
     const slideItems = slideItemsFromScope(scope);
@@ -126,7 +132,9 @@ const stellFir = (id=``) => {
     d.start({
         dataFunctions: {
             virstellungNext,
+            virstellungNextCancel,
             virstellungPrevious,
+            virstellungPreviousCancel,
         },
     });
     
