@@ -75,7 +75,7 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
 });
 ```
 
-In the HTTP server, use currentSlideParam to know which html page to serve. (server side rendering)
+In the HTTP server, use currentSlideParam queryParameter or the generated Href (see above) to know which html page to serve. (server side rendering)
 
 ## virstellungAutoLaunch.js
 
@@ -88,7 +88,6 @@ Depends upon [dom99](https://www.npmjs.com/package/dom99)
 ## virstellung.js
 
 Alternative to virstellungAutoLaunch, does nothing by itself, exports a function `stellFir`. Use it with the same id as used before for virstellung function
-
 
 ## virstellung.css
 
@@ -134,11 +133,9 @@ slideItems = [
 
 Virstellung means presentation in Luxembourgish
 
-
 ### Changelog
 
 [Changelog](./changelog.md)
-
 
 ### License
 
@@ -146,4 +143,4 @@ Virstellung means presentation in Luxembourgish
 
 ### Related
 
- - reveal.js
+- reveal.js
