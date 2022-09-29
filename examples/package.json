@@ -1,0 +1,19 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server baseURL=http://localhost:7999 PORT=7999",
+    "bundle": "rollup --config tools/rollup.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-sac": "^1.0.0",
+    "http-code-from-text": "^1.0.1",
+    "mime": "^3.0.0"
+  }
+}
