@@ -1,4 +1,4 @@
-export {virstellung, canDisplayInline};
+export {virstellung, selectImage, canDisplayInline};
 
 const canDisplayInline = [`video`, `image`, `audio`, `text`];
 const identity = function(x) {
@@ -14,6 +14,7 @@ const virstellung = ({
     translate = identity,
     id = ``,
     getText = identity,
+    onClick,
 }) => {
     const maxFocus = slideItems.length - 1;
     if (!currentSlide || !Number.isFinite(currentSlide) || currentSlide > maxFocus) {
@@ -85,14 +86,19 @@ const virstellung = ({
                     translate,
                     generateHref,
                     id,
+                    onClick,
                 })
             });
         }
     }
+    let clickFunction=``;
+    if (onClick) {
+        clickFunction = `data-function="${onClick}" tabindex="0"`
+    }
     return `
 <article class="virstellung" data-scope="${id}">
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
-    <div class="imageContainer">
+    <div class="imageContainer" ${clickFunction}>
         <picture ${pictureHidden} data-element="picture">
             ${pictureInnerHtml}
         </picture>
@@ -111,4 +117,35 @@ const virstellung = ({
 </div>
 </article>`;
 };
+/*
+displays a select with all the images,
+if js is enabled and virstellung.js is run with the augmentSelect function then
+the select is replaced with a button and a hidden input
+the hidden input holds the value and sends it in the form as the select would.
+the button is displayed and when clicked opens a dialog to chose an image.
+Once chosen the button display and the hidden input value are updated
+*/
+const selectImage = (options) => {
+    const {slideItems, id=``, currentSlide, formName} = options;
+    //if enabled replace with button
+    let valueSelected = ``;
+    let labelSelected = `Select`;
+    const initialSelect = `<select name=${formName} data-element="${id}initialSelect">
+    ${slideItems.map(({file, label}, i) => {
+        let selected=``;
+        if (i === currentSlide) {
+            labelSelected = label;
+            valueSelected = file;
+            selected = `selected`
+        }
+        return `<option value="${file}" ${selected}>${label}</option>`
+    }).join("")}
+    </select>`;
+    const hiddenButton = `<button hidden data-variable="${id}virstellungLabel" data-function="openVirstellungSelect" data-element="${id}hiddenButton">${labelSelected}</button>`;
+    // disabled initially to avoid sending the value twice
+    const hiddenInput = `<input disabled type="hidden" data-variable="${id}virstellungSelect" data-element="${id}hiddenInput" name="${formName}" value="${valueSelected}">`;
+    const hiddenVirstellung = `<dialog data-element="${id}virstellungSelect">${virstellung({...options, onClick: `optionalSelect`})}</dialog>`;
+    
+    return `${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}`;
+}
 

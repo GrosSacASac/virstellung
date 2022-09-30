@@ -1,7 +1,8 @@
-export {stellFir};
+export {stellFir, augmentSelect};
 
 import * as d from "dom99";
 import { keyboard } from "dom99/plugins/keyboard/keyboard.js";
+import { supportsDialog } from "./dialog.js";
 
 
 const e0 = `error loading`;
@@ -128,6 +129,19 @@ const displayX = function (currentSlide, scope) {
     }
 };
 
+
+d.functions.optionalSelect = function(event) {
+    
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    lastScope = scope;
+    const slideItems = slideItemsFromScope(scope);
+    
+    let currentSlide = (Number(d.get(scope, "currentSlide")));
+    d.feed(`${scope}virstellungSelect`, slideItems[currentSlide].file)
+    d.feed(`${scope}virstellungLabel`, slideItems[currentSlide].label)
+    d.elements[`${scope}virstellungSelect`].close();
+}
+
 const stellFir = (id=``) => {
     d.start({
         dataFunctions: {
@@ -148,4 +162,19 @@ try {
     navigator.mediaSession.setActionHandler(`previoustrack`, virstellungPrevious);
 } catch (error) {
     //
+}
+const augmentSelect = (id=``) => {
+    if (!supportsDialog) {
+        return;
+    }
+    //todo handle multiple selects
+    d.functions.openVirstellungSelect = function (event) {
+        event.preventDefault();
+        d.elements[`${id}virstellungSelect`].showModal();
+    }
+    stellFir(id);
+    d.elements[`${id}initialSelect`].hidden = true;
+    d.elements[`${id}initialSelect`].disabled = true;
+    d.elements[`${id}hiddenButton`].hidden = false;
+    d.elements[`${id}hiddenInput`].disabled = false;
 }
