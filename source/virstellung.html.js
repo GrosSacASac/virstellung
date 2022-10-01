@@ -106,6 +106,7 @@ const virstellungBase = ({
         <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
         <pre data-element="text" data-variable="text" ${textHidden}>${text}</pre>
+        <div class="hoverSelect"><p>✅</p></div>
     </div>
     <p>
         <a class="navbutton" href="${generateHref(previousSlide)}" data-function="virstellungPreviousCancel">⬅ ${translate(`Précédent`)}</a>

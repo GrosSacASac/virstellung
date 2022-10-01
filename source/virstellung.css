@@ -56,3 +56,37 @@
     background-color: #89ff89;
 }
 
+.imageContainer[data-function] {
+	position: relative;
+	overflow: hidden;
+    display: flex;
+    align-items: center ;
+}
+
+.imageContainer[data-function]:hover > .hoverSelect {
+	transform: translateX(0) rotate(0);
+}
+
+.hoverSelect {
+	transition: transform .1s linear;
+	color: #fff;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align:center;
+    
+    display: flex;
+    align-items: center;
+    margin: auto;
+    padding: auto;
+	background-color: rgba(25, 68, 25, 0.6);
+	
+	transform: translateY(-100%) rotate(0);
+
+}
+.hoverSelect>p {
+    margin: auto;
+}
+
