@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0
+
+- Add selectImage server side
+- Add augmentSelect client side
+- virstellung always return a promise
 
 ## 2.1.1
 

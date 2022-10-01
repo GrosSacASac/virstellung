@@ -1,7 +1,8 @@
-export {stellFir};
+export {stellFir, augmentSelect};
 
 import * as d from "dom99";
 import { keyboard } from "dom99/plugins/keyboard/keyboard.js";
+import { supportsDialog } from "./dialog.js";
 
 
 const e0 = `error loading`;
@@ -128,6 +129,27 @@ const displayX = function (currentSlide, scope) {
     }
 };
 
+
+d.functions.optionalSelect = function(event) {
+    
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    lastScope = scope;
+    const slideItems = slideItemsFromScope(scope);
+    
+    let currentSlide = (Number(d.get(scope, "currentSlide")));
+    d.feed(d.scopeFromArray([scope, "virstellungSelect"]), slideItems[currentSlide].file)
+    d.feed(d.scopeFromArray([scope, "virstellungLabel"]), slideItems[currentSlide].label)
+    d.elements[d.scopeFromArray([scope, "virstellungSelect"])].close();
+}
+
+
+d.functions.openVirstellungSelect = function (event) {
+    event.preventDefault();
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    lastScope = scope;
+    d.elements[d.scopeFromArray([scope, "virstellungSelect"])].showModal();
+}
+
 const stellFir = (id=``) => {
     d.start({
         dataFunctions: {
@@ -149,3 +171,14 @@ try {
 } catch (error) {
     //
 }
+const augmentSelect = (id=``) => {
+    if (!supportsDialog) {
+        return;
+    }
+    stellFir(id);
+    d.elements[d.scopeFromArray([id, "initialSelect"])].hidden = true;
+    d.elements[d.scopeFromArray([id, "initialSelect"])].disabled = true;
+    d.elements[d.scopeFromArray([id, "hiddenButton"])].hidden = false;
+    d.elements[d.scopeFromArray([id, "hiddenInput"])].disabled = false;
+
+};

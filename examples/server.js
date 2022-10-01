@@ -7,7 +7,7 @@ import {
     httpCodeFromText,
 } from "http-code-from-text";
 import {parseCli} from "cli-sac";
-import { virstellung, canDisplayInline as displayInline } from "../source/virstellung.html.js";
+import { virstellung, selectImage } from "../source/virstellung.html.js";
 import mime from "mime";
 
 const __filename = url.fileURLToPath(import.meta.url);
@@ -22,7 +22,26 @@ const {PORT} = cliArgs;
 
 const slideShowParamName="a";
 const currentSlideParam = "currentslide";
-const commonCss = ``;
+const commonCss = `
+dialog::backdrop {
+    background: rgba(255, 0, 0, 0.25);
+  }
+dialog::backdrop {
+	background: rgba(120,122,230,0.9);
+	backdrop-filter: blur(2px);
+}
+
+dialog:not([open]) {
+	display: none;
+}
+
+body {
+    margin:0;
+    padding:0;
+    background-color: #eee;
+    background-image: linear-gradient(3330deg, #000012 , #432222);
+}
+`;
 
 const generateHref = function (index/*, item */) {
     return `?${slideShowParamName}&${currentSlideParam}=${index}`;
@@ -36,8 +55,12 @@ const items = [
 ];
 
 const staticResponses = new Map(Object.entries({
-    [`/virstellung.js`]: {
-        [`file`]: `${__dirname}/built/virstellung.es.js`,
+    [`/virstellungAutoLaunch.es.js`]: {
+        [`file`]: `${__dirname}/built/virstellungAutoLaunch.es.js`,
+        [`Content-Type`]: `application/javascript`,
+    },
+    [`/selectHelper.es.js`]: {
+        [`file`]: `${__dirname}/built/selectHelper.es.js`,
         [`Content-Type`]: `application/javascript`,
     },
     [`/virstellung.css`]: {
@@ -54,21 +77,15 @@ const staticResponses = new Map(Object.entries({
 
 const handleDynamicPages =  async (request, response) => {
     // console.log(request.parsedUrl.searchParams.get(currentSlideParam));
+    if (request.parsedUrl.pathname === `/`) {
     response.writeHead(httpCodeFromText[`OK`],  {[`Content-Type`]: `text/html`});
     response.end(`<!doctype html>
-<html lang="${request.lang}">
+<html >
 <head>
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width">
     <link media="screen" href="${baseURL}virstellung.css" rel="stylesheet">
-    <style>
-    body {
-        margin:0;
-        padding:0;
-        background-color: #eee;
-        background-image: linear-gradient(3330deg, #000012 , #432222);
-    }</style>
     <style>${commonCss}</style>
 </head><body>    
             ${await virstellung({
@@ -83,9 +100,60 @@ const handleDynamicPages =  async (request, response) => {
                 currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
                 generateHref,
             })}
-            <script type="module" src="${baseURL}virstellung.js"></script>
+            <script type="module" src="${baseURL}virstellungAutoLaunch.es.js"></script>
 </body></html>`);
-    return;        
+    return;
+    } else {
+        response.writeHead(httpCodeFromText[`OK`],  {[`Content-Type`]: `text/html`});
+        response.end(`<!doctype html>
+    <html >
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width">
+        <link media="screen" href="${baseURL}virstellung.css" rel="stylesheet">
+        <style>
+        .virstellung {
+            width: initial;
+            height: initial;
+        }</style>
+        <style>${commonCss}</style>
+    </head><body><form method="POST" action="formS"> 
+    ${await selectImage({
+        slideItems: items.map(file => {
+            return {
+                label: file.split(".")[0],
+                file: `${file}`,
+                fileAlone: file,
+                mime: mime.getType(file),
+            };
+        }),
+        currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
+        generateHref,
+        formName: "imageS",
+        id:"imageS"
+    })}
+    ${await selectImage({
+        slideItems: items.map(file => {
+            return {
+                label: file.split(".")[0],
+                file: `${file}`,
+                fileAlone: file,
+                mime: mime.getType(file),
+            };
+        }),
+        currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
+        generateHref,
+        formName: "imageS2",
+        id:"imageS2"
+    })}
+                <button>Submit Form</button>
+
+                </form>
+                <script type="module" src="${baseURL}selectHelper.es.js"></script>
+    </body></html>`);
+        return;
+    }
         
 };
 
@@ -109,7 +177,6 @@ const server = http.createServer(async (request, response) => {
         parseError = error;
         console.error(parseError)
     }
-    request.parsedUrl = parsedUrl
     
     let handled;
     if (request.method === `GET`) {
@@ -128,6 +195,14 @@ const server = http.createServer(async (request, response) => {
             response.end(request.t(`e1`));
         }
       return;
+  }
+
+  if (request.method === `POST`) {
+    if (request.url === `/formS`) {
+        response.setHeader(`Content-Type`, `text/plain; charset=utf-8`);
+        request.pipe(response);
+        return;
+    }
   }
   
   response.setHeader(`Content-Type`, `text/plain; charset=utf-8`);

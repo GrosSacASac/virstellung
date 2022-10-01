@@ -1,4 +1,4 @@
-export {virstellung, canDisplayInline};
+export {virstellung, selectImage, canDisplayInline};
 
 const canDisplayInline = [`video`, `image`, `audio`, `text`];
 const identity = function(x) {
@@ -7,13 +7,14 @@ const identity = function(x) {
 
 
 
-const virstellung = ({
+const virstellungBase = ({
     slideItems,
     currentSlide = 0,
     generateHref,
     translate = identity,
     id = ``,
     getText = identity,
+    onClick,
 }) => {
     const maxFocus = slideItems.length - 1;
     if (!currentSlide || !Number.isFinite(currentSlide) || currentSlide > maxFocus) {
@@ -79,20 +80,24 @@ const virstellung = ({
         } else {
             return Promise.resolve(getText(fileAlone)).then(text => {
                 slideItems[currentSlide].temp = text;
-                return virstellung({
+                return virstellungBase({
                     slideItems,
                     currentSlide,
                     translate,
                     generateHref,
                     id,
+                    onClick,
                 })
             });
         }
     }
+    let clickFunction=``;
+    if (onClick) {
+        clickFunction = `data-function="${onClick}" tabindex="0"`
+    }
     return `
-<article class="virstellung" data-scope="${id}">
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
-    <div class="imageContainer">
+    <div class="imageContainer" ${clickFunction}>
         <picture ${pictureHidden} data-element="picture">
             ${pictureInnerHtml}
         </picture>
@@ -101,6 +106,7 @@ const virstellung = ({
         <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
         <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
         <pre data-element="text" data-variable="text" ${textHidden}>${text}</pre>
+        <div class="hoverSelect"><p>✅</p></div>
     </div>
     <p>
         <a class="navbutton" href="${generateHref(previousSlide)}" data-function="virstellungPreviousCancel">⬅ ${translate(`Précédent`)}</a>
@@ -108,7 +114,49 @@ const virstellung = ({
     </p>
     <input data-variable="currentSlide" type="hidden" value="${currentSlide}">
     <script data-variable="slideItems" type="text/json">${JSON.stringify(slideItems)}</script>
-</div>
+</div>`;
+};
+
+const virstellung = async (options) => {
+    const {id=``} = options;
+    
+    return `
+<article class="virstellung" data-scope="${id}">
+${await virstellungBase(options)}
 </article>`;
 };
+
+/*
+displays a select with all the images,
+if js is enabled and virstellung.js is run with the augmentSelect function then
+the select is replaced with a button and a hidden input
+the hidden input holds the value and sends it in the form as the select would.
+the button is displayed and when clicked opens a dialog to chose an image.
+Once chosen the button display and the hidden input value are updated
+*/
+const selectImage = async (options) => {
+    const {slideItems, id=``, currentSlide, formName} = options;
+    //if enabled replace with button
+    let valueSelected = ``;
+    let labelSelected = `Select`;
+    const initialSelect = `<select name=${formName} data-element="initialSelect">
+    ${slideItems.map(({file, label}, i) => {
+        let selected=``;
+        if (i === currentSlide) {
+            labelSelected = label;
+            valueSelected = file;
+            selected = `selected`
+        }
+        return `<option value="${file}" ${selected}>${label}</option>`
+    }).join("")}
+    </select>`;
+    const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;
+    // disabled initially to avoid sending the value twice
+    const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${valueSelected}">`;
+    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${await virstellungBase({...options, onClick: `optionalSelect`})}</dialog>`;
+    
+    return `<fieldset class="virstellung-form" data-scope="${id}">
+    ${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}
+    </fieldset>`;
+}
 
