@@ -137,9 +137,17 @@ d.functions.optionalSelect = function(event) {
     const slideItems = slideItemsFromScope(scope);
     
     let currentSlide = (Number(d.get(scope, "currentSlide")));
-    d.feed(`${scope}virstellungSelect`, slideItems[currentSlide].file)
-    d.feed(`${scope}virstellungLabel`, slideItems[currentSlide].label)
-    d.elements[`${scope}virstellungSelect`].close();
+    d.feed(d.scopeFromArray([scope, "virstellungSelect"]), slideItems[currentSlide].file)
+    d.feed(d.scopeFromArray([scope, "virstellungLabel"]), slideItems[currentSlide].label)
+    d.elements[d.scopeFromArray([scope, "virstellungSelect"])].close();
+}
+
+
+d.functions.openVirstellungSelect = function (event) {
+    event.preventDefault();
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    lastScope = scope;
+    d.elements[d.scopeFromArray([scope, "virstellungSelect"])].showModal();
 }
 
 const stellFir = (id=``) => {
@@ -167,14 +175,10 @@ const augmentSelect = (id=``) => {
     if (!supportsDialog) {
         return;
     }
-    //todo handle multiple selects
-    d.functions.openVirstellungSelect = function (event) {
-        event.preventDefault();
-        d.elements[`${id}virstellungSelect`].showModal();
-    }
     stellFir(id);
-    d.elements[`${id}initialSelect`].hidden = true;
-    d.elements[`${id}initialSelect`].disabled = true;
-    d.elements[`${id}hiddenButton`].hidden = false;
-    d.elements[`${id}hiddenInput`].disabled = false;
-}
+    d.elements[d.scopeFromArray([id, "initialSelect"])].hidden = true;
+    d.elements[d.scopeFromArray([id, "initialSelect"])].disabled = true;
+    d.elements[d.scopeFromArray([id, "hiddenButton"])].hidden = false;
+    d.elements[d.scopeFromArray([id, "hiddenInput"])].disabled = false;
+
+};

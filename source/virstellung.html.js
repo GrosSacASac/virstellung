@@ -7,7 +7,7 @@ const identity = function(x) {
 
 
 
-const virstellung = ({
+const virstellungBase = ({
     slideItems,
     currentSlide = 0,
     generateHref,
@@ -80,7 +80,7 @@ const virstellung = ({
         } else {
             return Promise.resolve(getText(fileAlone)).then(text => {
                 slideItems[currentSlide].temp = text;
-                return virstellung({
+                return virstellungBase({
                     slideItems,
                     currentSlide,
                     translate,
@@ -96,7 +96,6 @@ const virstellung = ({
         clickFunction = `data-function="${onClick}" tabindex="0"`
     }
     return `
-<article class="virstellung" data-scope="${id}">
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
     <div class="imageContainer" ${clickFunction}>
         <picture ${pictureHidden} data-element="picture">
@@ -114,9 +113,18 @@ const virstellung = ({
     </p>
     <input data-variable="currentSlide" type="hidden" value="${currentSlide}">
     <script data-variable="slideItems" type="text/json">${JSON.stringify(slideItems)}</script>
-</div>
+</div>`;
+};
+
+const virstellung = async (options) => {
+    const {id=``} = options;
+    
+    return `
+<article class="virstellung" data-scope="${id}">
+${await virstellungBase(options)}
 </article>`;
 };
+
 /*
 displays a select with all the images,
 if js is enabled and virstellung.js is run with the augmentSelect function then
@@ -125,12 +133,12 @@ the hidden input holds the value and sends it in the form as the select would.
 the button is displayed and when clicked opens a dialog to chose an image.
 Once chosen the button display and the hidden input value are updated
 */
-const selectImage = (options) => {
+const selectImage = async (options) => {
     const {slideItems, id=``, currentSlide, formName} = options;
     //if enabled replace with button
     let valueSelected = ``;
     let labelSelected = `Select`;
-    const initialSelect = `<select name=${formName} data-element="${id}initialSelect">
+    const initialSelect = `<select name=${formName} data-element="initialSelect">
     ${slideItems.map(({file, label}, i) => {
         let selected=``;
         if (i === currentSlide) {
@@ -141,11 +149,13 @@ const selectImage = (options) => {
         return `<option value="${file}" ${selected}>${label}</option>`
     }).join("")}
     </select>`;
-    const hiddenButton = `<button hidden data-variable="${id}virstellungLabel" data-function="openVirstellungSelect" data-element="${id}hiddenButton">${labelSelected}</button>`;
+    const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;
     // disabled initially to avoid sending the value twice
-    const hiddenInput = `<input disabled type="hidden" data-variable="${id}virstellungSelect" data-element="${id}hiddenInput" name="${formName}" value="${valueSelected}">`;
-    const hiddenVirstellung = `<dialog data-element="${id}virstellungSelect">${virstellung({...options, onClick: `optionalSelect`})}</dialog>`;
+    const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${valueSelected}">`;
+    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${await virstellungBase({...options, onClick: `optionalSelect`})}</dialog>`;
     
-    return `${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}`;
+    return `<fieldset class="virstellung-form" data-scope="${id}">
+    ${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}
+    </fieldset>`;
 }
 
