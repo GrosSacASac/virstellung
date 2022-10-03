@@ -13,8 +13,8 @@ const initialTitle = document.title;
 let lastScope;
 
 const slideItemsFromScope = (scope) => {
-    return JSON.parse(d.get(scope, "slideItems"));
-}
+    return JSON.parse(d.get(scope, `slideItems`));
+};
 
 const virstellungPreviousCancel = function (event) {
     event?.preventDefault?.();
@@ -24,7 +24,7 @@ const virstellungPreviousCancel = function (event) {
 const virstellungPrevious = function (event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
-    let currentSlide = Number(d.get(scope, "currentSlide"));
+    let currentSlide = Number(d.get(scope, `currentSlide`));
     
     currentSlide = currentSlide - 1;
     if (currentSlide === -1) {
@@ -43,7 +43,7 @@ const virstellungNext = function (event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
     const slideItems = slideItemsFromScope(scope);
-    let currentSlide = (Number(d.get(scope, "currentSlide")) + 1) % slideItems.length;
+    const currentSlide = (Number(d.get(scope, `currentSlide`)) + 1) % slideItems.length;
     displayX(currentSlide, scope);
     preloadX((currentSlide + 1) % slideItems.length, scope);
 };
@@ -53,20 +53,20 @@ const preloadX = function (slide, scope) {
     const slideItems = slideItemsFromScope(scope);
     const { file, mime } = slideItems[slide];
     if (mime.includes(`image`) && file) {
-        d.elements[d.scopeFromArray([scope, "preloader"])].src = file;
+        d.elements[d.scopeFromArray([scope, `preloader`])].src = file;
     }
 };
 
 const displayX = function (currentSlide, scope) {
     const slideItems = slideItemsFromScope(scope);
     const { file, mime, label, files } = slideItems[currentSlide];
-    d.feed(d.scopeFromArray([scope, "currentSlide"]), String(currentSlide));
+    d.feed(d.scopeFromArray([scope, `currentSlide`]), String(currentSlide));
     document.title = `${initialTitle} ${label}`;
-    const image = d.elements[d.scopeFromArray([scope, "image"])];
-    const picture = d.elements[d.scopeFromArray([scope, "picture"])];
-    const video = d.elements[d.scopeFromArray([scope, "video"])];
-    const audio = d.elements[d.scopeFromArray([scope, "audio"])];
-    const text = d.elements[d.scopeFromArray([scope, "text"])];
+    const image = d.elements[d.scopeFromArray([scope, `image`])];
+    const picture = d.elements[d.scopeFromArray([scope, `picture`])];
+    const video = d.elements[d.scopeFromArray([scope, `video`])];
+    const audio = d.elements[d.scopeFromArray([scope, `audio`])];
+    const text = d.elements[d.scopeFromArray([scope, `text`])];
     text.hidden = true;
     picture.hidden = true;
     image.hidden = true;
@@ -117,9 +117,9 @@ const displayX = function (currentSlide, scope) {
             }
             return response.text();
         }).then(responseAsString => {
-            d.feed(d.scopeFromArray([scope, "text"]), responseAsString);
+            d.feed(d.scopeFromArray([scope, `text`]), responseAsString);
         }).catch(error => {
-            d.feed(d.scopeFromArray([scope, "text"]), e0);
+            d.feed(d.scopeFromArray([scope, `text`]), e0);
         });
     }
     if (navigator.mediaSession) {
@@ -136,21 +136,21 @@ d.functions.optionalSelect = function(event) {
     lastScope = scope;
     const slideItems = slideItemsFromScope(scope);
     
-    let currentSlide = (Number(d.get(scope, "currentSlide")));
-    d.feed(d.scopeFromArray([scope, "virstellungSelect"]), slideItems[currentSlide].file)
-    d.feed(d.scopeFromArray([scope, "virstellungLabel"]), slideItems[currentSlide].label)
-    d.elements[d.scopeFromArray([scope, "virstellungSelect"])].close();
-}
+    const currentSlide = (Number(d.get(scope, `currentSlide`)));
+    d.feed(d.scopeFromArray([scope, `virstellungSelect`]), slideItems[currentSlide].file);
+    d.feed(d.scopeFromArray([scope, `virstellungLabel`]), slideItems[currentSlide].label);
+    d.elements[d.scopeFromArray([scope, `virstellungSelect`])].close();
+};
 
 
 d.functions.openVirstellungSelect = function (event) {
     event.preventDefault();
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
-    d.elements[d.scopeFromArray([scope, "virstellungSelect"])].showModal();
-}
+    d.elements[d.scopeFromArray([scope, `virstellungSelect`])].showModal();
+};
 
-const stellFir = (id=``) => {
+const stellFir = (id = ``) => {
     d.start({
         dataFunctions: {
             virstellungNext,
@@ -160,10 +160,10 @@ const stellFir = (id=``) => {
         },
     });
     
-    d.elements[d.scopeFromArray([id, "audio"])].volume = 0.5;
-    d.elements[d.scopeFromArray([id, "video"])].volume = 0.5;
+    d.elements[d.scopeFromArray([id, `audio`])].volume = 0.5;
+    d.elements[d.scopeFromArray([id, `video`])].volume = 0.5;
     lastScope = lastScope ?? id; 
-}
+};
 
 try {
     navigator.mediaSession.setActionHandler(`nexttrack`, virstellungNext);
@@ -171,14 +171,14 @@ try {
 } catch (error) {
     //
 }
-const augmentSelect = (id=``) => {
+const augmentSelect = (id = ``) => {
     if (!supportsDialog) {
         return;
     }
     stellFir(id);
-    d.elements[d.scopeFromArray([id, "initialSelect"])].hidden = true;
-    d.elements[d.scopeFromArray([id, "initialSelect"])].disabled = true;
-    d.elements[d.scopeFromArray([id, "hiddenButton"])].hidden = false;
-    d.elements[d.scopeFromArray([id, "hiddenInput"])].disabled = false;
+    d.elements[d.scopeFromArray([id, `initialSelect`])].hidden = true;
+    d.elements[d.scopeFromArray([id, `initialSelect`])].disabled = true;
+    d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
+    d.elements[d.scopeFromArray([id, `hiddenInput`])].disabled = false;
 
 };

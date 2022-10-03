@@ -20,8 +20,8 @@ baseURL = new URL(baseURL);
 
 const {PORT} = cliArgs;
 
-const slideShowParamName="a";
-const currentSlideParam = "currentslide";
+const slideShowParamName = `a`;
+const currentSlideParam = `currentslide`;
 const commonCss = `
 dialog::backdrop {
     background: rgba(255, 0, 0, 0.25);
@@ -48,10 +48,10 @@ const generateHref = function (index/*, item */) {
 };
 
 const items = [
-    "branch.jpg",
-    "dance.jpg",
-    "fruity.jpg",
-    "kiss.jpg",
+    `branch.jpg`,
+    `dance.jpg`,
+    `fruity.jpg`,
+    `kiss.jpg`,
 ];
 
 const staticResponses = new Map(Object.entries({
@@ -71,8 +71,8 @@ const staticResponses = new Map(Object.entries({
         return [`/${item}`, {
             [`file`]: `${__dirname}/images/${item}`,
             [`Content-Type`]: mime.getType(item),
-        }]
-    }))
+        }];
+    })),
 }));
 
 const handleDynamicPages =  async (request, response) => {
@@ -103,7 +103,7 @@ const handleDynamicPages =  async (request, response) => {
             <script type="module" src="${baseURL}virstellungAutoLaunch.es.js"></script>
 </body></html>`);
     return;
-    } else {
+    } 
         response.writeHead(httpCodeFromText[`OK`],  {[`Content-Type`]: `text/html`});
         response.end(`<!doctype html>
     <html >
@@ -122,7 +122,7 @@ const handleDynamicPages =  async (request, response) => {
     ${await selectImage({
         slideItems: items.map(file => {
             return {
-                label: file.split(".")[0],
+                label: file.split(`.`)[0],
                 file: `${file}`,
                 fileAlone: file,
                 mime: mime.getType(file),
@@ -130,13 +130,13 @@ const handleDynamicPages =  async (request, response) => {
         }),
         currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
         generateHref,
-        formName: "imageS",
-        id:"imageS"
+        formName: `imageS`,
+        id:`imageS`,
     })}
     ${await selectImage({
         slideItems: items.map(file => {
             return {
-                label: file.split(".")[0],
+                label: file.split(`.`)[0],
                 file: `${file}`,
                 fileAlone: file,
                 mime: mime.getType(file),
@@ -144,8 +144,8 @@ const handleDynamicPages =  async (request, response) => {
         }),
         currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
         generateHref,
-        formName: "imageS2",
-        id:"imageS2"
+        formName: `imageS2`,
+        id:`imageS2`,
     })}
                 <button>Submit Form</button>
 
@@ -153,7 +153,7 @@ const handleDynamicPages =  async (request, response) => {
                 <script type="module" src="${baseURL}selectHelper.es.js"></script>
     </body></html>`);
         return;
-    }
+    
         
 };
 
@@ -175,7 +175,7 @@ const server = http.createServer(async (request, response) => {
         request.parsedUrl = new URL(request.url, baseURL);
     } catch (error) {
         parseError = error;
-        console.error(parseError)
+        console.error(parseError);
     }
     
     let handled;

@@ -9,7 +9,7 @@ const commonOutputOptions = {
     extend: false,
 
     strict: true,
-    namespaceToStringTag: false
+    namespaceToStringTag: false,
 };
 
 export default [{
@@ -28,8 +28,8 @@ export default [{
     ],
 
     watch: {
-        clearScreen: true
-    }
+        clearScreen: true,
+    },
 },{
     input: `./selectHelper.js`,
     plugins: [resolve()],
@@ -46,6 +46,6 @@ export default [{
     ],
 
     watch: {
-        clearScreen: true
-    }
-},];
+        clearScreen: true,
+    },
+}];

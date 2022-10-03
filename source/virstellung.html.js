@@ -3,7 +3,7 @@ export {virstellung, selectImage, canDisplayInline};
 const canDisplayInline = [`video`, `image`, `audio`, `text`];
 const identity = function(x) {
     return x;
-}
+};
 
 
 
@@ -87,13 +87,13 @@ const virstellungBase = ({
                     generateHref,
                     id,
                     onClick,
-                })
+                });
             });
         }
     }
-    let clickFunction=``;
+    let clickFunction = ``;
     if (onClick) {
-        clickFunction = `data-function="${onClick}" tabindex="0"`
+        clickFunction = `data-function="${onClick}" tabindex="0"`;
     }
     return `
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
@@ -118,7 +118,7 @@ const virstellungBase = ({
 };
 
 const virstellung = async (options) => {
-    const {id=``} = options;
+    const {id = ``} = options;
     
     return `
 <article class="virstellung" data-scope="${id}">
@@ -135,20 +135,20 @@ the button is displayed and when clicked opens a dialog to chose an image.
 Once chosen the button display and the hidden input value are updated
 */
 const selectImage = async (options) => {
-    const {slideItems, id=``, currentSlide, formName} = options;
+    const {slideItems, id = ``, currentSlide, formName} = options;
     //if enabled replace with button
     let valueSelected = ``;
     let labelSelected = `Select`;
     const initialSelect = `<select name=${formName} data-element="initialSelect">
     ${slideItems.map(({file, label}, i) => {
-        let selected=``;
+        let selected = ``;
         if (i === currentSlide) {
             labelSelected = label;
             valueSelected = file;
-            selected = `selected`
+            selected = `selected`;
         }
-        return `<option value="${file}" ${selected}>${label}</option>`
-    }).join("")}
+        return `<option value="${file}" ${selected}>${label}</option>`;
+    }).join(``)}
     </select>`;
     const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;
     // disabled initially to avoid sending the value twice
@@ -158,5 +158,5 @@ const selectImage = async (options) => {
     return `<fieldset class="virstellung-form" data-scope="${id}">
     ${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}
     </fieldset>`;
-}
+};
 
