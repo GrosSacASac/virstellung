@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0
+
+- fileSelected as second argument to selectImage, this should correspond to one of `file` property of one of the items
+- selectImage is no longer async and does not support text
+- selectImage no longer requires the generateHref option
+
 ## 3.0.0
 
 - Add selectImage server side

@@ -119,34 +119,28 @@ const handleDynamicPages =  async (request, response) => {
         }</style>
         <style>${commonCss}</style>
     </head><body><form method="POST" action="formS"> 
-    ${await selectImage({
+    ${selectImage({
         slideItems: items.map(file => {
             return {
                 label: file.split(`.`)[0],
                 file: `${file}`,
-                fileAlone: file,
                 mime: mime.getType(file),
             };
         }),
-        currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
-        generateHref,
         formName: `imageS`,
         id:`imageS`,
-    })}
-    ${await selectImage({
+    }, items[0].file)}
+    ${selectImage({
         slideItems: items.map(file => {
             return {
                 label: file.split(`.`)[0],
                 file: `${file}`,
-                fileAlone: file,
                 mime: mime.getType(file),
             };
         }),
-        currentSlide: Number(request.parsedUrl.searchParams.get(currentSlideParam)),
-        generateHref,
         formName: `imageS2`,
         id:`imageS2`,
-    })}
+    }, items[1].file)}
                 <button>Submit Form</button>
 
                 </form>

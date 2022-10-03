@@ -94,6 +94,9 @@ const virstellungBase = ({
     let clickFunction = ``;
     if (onClick) {
         clickFunction = `data-function="${onClick}" tabindex="0"`;
+        generateHref = function () {
+            return ``;
+        }
     }
     return `
 <div data-function="key-ArrowLeft+virstellungPrevious key-ArrowRight+virstellungNext" tabindex="0">
@@ -134,17 +137,17 @@ the hidden input holds the value and sends it in the form as the select would.
 the button is displayed and when clicked opens a dialog to chose an image.
 Once chosen the button display and the hidden input value are updated
 */
-const selectImage = async (options) => {
-    const {slideItems, id = ``, currentSlide, formName} = options;
+const selectImage = (options, fileSelected=``) => {
+    const {slideItems, id = ``, formName} = options;
     //if enabled replace with button
-    let valueSelected = ``;
+    let currentSlide = 0;
     let labelSelected = `Select`;
     const initialSelect = `<select name=${formName} data-element="initialSelect">
     ${slideItems.map(({file, label}, i) => {
         let selected = ``;
-        if (i === currentSlide) {
+        if (fileSelected === file) {
             labelSelected = label;
-            valueSelected = file;
+            currentSlide = i;
             selected = `selected`;
         }
         return `<option value="${file}" ${selected}>${label}</option>`;
@@ -152,8 +155,8 @@ const selectImage = async (options) => {
     </select>`;
     const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;
     // disabled initially to avoid sending the value twice
-    const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${valueSelected}">`;
-    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${await virstellungBase({...options, onClick: `optionalSelect`})}</dialog>`;
+    const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
+    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}</dialog>`;
     
     return `<fieldset class="virstellung-form" data-scope="${id}">
     ${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}
