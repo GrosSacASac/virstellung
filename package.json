@@ -40,5 +40,9 @@
   "keywords": [
     "slide",
     "show"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-red": "^1.9.1"
+  }
 }
