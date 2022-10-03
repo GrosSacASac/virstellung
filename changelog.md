@@ -5,6 +5,19 @@
 - fileSelected as second argument to selectImage, this should correspond to one of `file` property of one of the items
 - selectImage is no longer async and does not support text
 - selectImage no longer requires the generateHref option
+- selectImage and virstellung no longer take translate as an option
+- instead they take 2 new optional options that are strings
+- nextLabel
+- previousLabel
+- pass the following to have it same as before
+
+```js
+{
+    ...otherOptions,
+    previousLabel: `⬅ ${translate(`Précédent`)}`,
+    nextLabel: `${translate(`Suivant`)} ➡`,
+}
+```
 
 ## 3.0.0
 

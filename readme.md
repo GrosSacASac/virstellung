@@ -60,7 +60,8 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
         slideItems: preparedSlideItems, // array with {label, file, mime}
         currentSlide: i, // current slide
         generateHref, // href used in the links for next, previous
-        translate: undefined, // optional translation function
+        previousLabel: undefined, // optional label string
+        nextLabel: undefined, // optional label string
         id: undefined, // id that will be used in the html,
         // for the event handlers to know which slide should go next
         // (there can be multiples slides on the same page)

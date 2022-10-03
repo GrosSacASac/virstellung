@@ -11,7 +11,8 @@ const virstellungBase = ({
     slideItems,
     currentSlide = 0,
     generateHref,
-    translate = identity,
+    nextLabel = `Next ➡`,
+    previousLabel = `⬅ Previous`,
     id = ``,
     getText = identity,
     onClick,
@@ -83,7 +84,8 @@ const virstellungBase = ({
                 return virstellungBase({
                     slideItems,
                     currentSlide,
-                    translate,
+                    nextLabel,
+                    previousLabel,
                     generateHref,
                     id,
                     onClick,
@@ -112,8 +114,8 @@ const virstellungBase = ({
         <div class="hoverSelect"><p>✅</p></div>
     </div>
     <p>
-        <a class="navbutton" href="${generateHref(previousSlide)}" data-function="virstellungPreviousCancel">⬅ ${translate(`Précédent`)}</a>
-        <a class="navbutton" href="${generateHref(nextSlide)}" data-function="virstellungNextCancel">${translate(`Suivant`)} ➡</a>
+        <a class="navbutton" href="${generateHref(previousSlide)}" data-function="virstellungPreviousCancel">${previousLabel}</a>
+        <a class="navbutton" href="${generateHref(nextSlide)}" data-function="virstellungNextCancel">${nextLabel}</a>
     </p>
     <input data-variable="currentSlide" type="hidden" value="${currentSlide}">
     <script data-variable="slideItems" type="text/json">${JSON.stringify(slideItems)}</script>
