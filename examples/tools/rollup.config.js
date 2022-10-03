@@ -17,7 +17,6 @@ export default [{
     plugins: [resolve()],
     treeshake: {
         moduleSideEffects: true,
-        moduleSideEffects: `no-external`,
     },
 
     output: [
