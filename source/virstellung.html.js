@@ -145,14 +145,16 @@ const selectImage = (options, fileSelected=``) => {
     let currentSlide = 0;
     let labelSelected = `Select`;
     const initialSelect = `<select name=${formName} data-element="initialSelect">
-    ${slideItems.map(({file, label}, i) => {
+    ${slideItems.map((slideItem, i) => {
+        const {file, label, value=file} = slideItem;
+        slideItem.value = value;
         let selected = ``;
         if (fileSelected === file) {
             labelSelected = label;
             currentSlide = i;
             selected = `selected`;
         }
-        return `<option value="${file}" ${selected}>${label}</option>`;
+        return `<option value="${value}" ${selected}>${label}</option>`;
     }).join(``)}
     </select>`;
     const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;

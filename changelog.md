@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.0
+
+- selectImage items can have a value property which defaults to its file property. This value is what is used to submit in the form
+- file is still used as a `<img src="">`
+
 ## 4.0.0
 
 - fileSelected as second argument to selectImage, this should correspond to one of `file` property of one of the items

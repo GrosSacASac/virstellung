@@ -137,7 +137,7 @@ d.functions.optionalSelect = function(event) {
     const slideItems = slideItemsFromScope(scope);
     
     const currentSlide = (Number(d.get(scope, `currentSlide`)));
-    d.feed(d.scopeFromArray([scope, `virstellungSelect`]), slideItems[currentSlide].file);
+    d.feed(d.scopeFromArray([scope, `virstellungSelect`]), slideItems[currentSlide].value);
     d.feed(d.scopeFromArray([scope, `virstellungLabel`]), slideItems[currentSlide].label);
     d.elements[d.scopeFromArray([scope, `virstellungSelect`])].close();
 };
