@@ -7,8 +7,8 @@ import {
     httpCodeFromText,
 } from "http-code-from-text";
 import {parseCli} from "cli-sac";
-import { virstellung, selectImage } from "../source/virstellung.html.js";
 import mime from "mime";
+import { virstellung, selectImage } from "../source/virstellung.html.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
