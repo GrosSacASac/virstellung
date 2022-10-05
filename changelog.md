@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0
+
+- Add close button to select dialog
+
 ## 4.1.0
 
 - selectImage items can have a value property which defaults to its file property. This value is what is used to submit in the form

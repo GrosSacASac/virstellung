@@ -140,7 +140,7 @@ the button is displayed and when clicked opens a dialog to chose an image.
 Once chosen the button display and the hidden input value are updated
 */
 const selectImage = (options, fileSelected=``) => {
-    const {slideItems, id = ``, formName} = options;
+    const {slideItems, id = ``, formName, closeLabel=`Close`} = options;
     //if enabled replace with button
     let currentSlide = 0;
     let labelSelected = `Select`;
@@ -160,7 +160,7 @@ const selectImage = (options, fileSelected=``) => {
     const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;
     // disabled initially to avoid sending the value twice
     const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
-    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}</dialog>`;
+    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button></form></dialog>`;
     
     return `<fieldset class="virstellung-form" data-scope="${id}">
     ${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}

@@ -129,6 +129,7 @@ const handleDynamicPages =  async (request, response) => {
         }),
         formName: `imageS`,
         id:`imageS`,
+        closeLabel: `Close`,
     }, items[0])}
     ${selectImage({
         slideItems: items.map(file => {
@@ -140,6 +141,7 @@ const handleDynamicPages =  async (request, response) => {
         }),
         formName: `imageS2`,
         id:`imageS2`,
+        closeLabel: `Close second image picker`,
     }, items[1])}
                 <button>Submit Form</button>
 
