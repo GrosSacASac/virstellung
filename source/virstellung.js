@@ -180,5 +180,10 @@ const augmentSelect = (id = ``) => {
     d.elements[d.scopeFromArray([id, `initialSelect`])].disabled = true;
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
     d.elements[d.scopeFromArray([id, `hiddenInput`])].disabled = false;
+    
+    const currentSlide = (Number(d.get(id, `currentSlide`)));
+    displayX(currentSlide, id)
+    lastScope = id;
+    d.functions.optionalSelect();
 
 };
