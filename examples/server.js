@@ -110,6 +110,7 @@ const handleDynamicPages =  async (request, response) => {
             return {
                 label: file.split(`.`)[0],
                 file: `${file}`,
+                value: file,
                 mime: mime.getType(file),
             };
         }),
@@ -122,6 +123,7 @@ const handleDynamicPages =  async (request, response) => {
             return {
                 label: file.split(`.`)[0],
                 file: `${file}`,
+                value: file,
                 mime: mime.getType(file),
             };
         }),

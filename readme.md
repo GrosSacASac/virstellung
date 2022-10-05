@@ -130,6 +130,14 @@ slideItems = [
 ];
 ```
 
+## select
+
+Todo
+
+### Empty option, how to
+
+have an item with value set to empty string, and file point to an image that represents emptyness
+
 ## About
 
 Virstellung means presentation in Luxembourgish
