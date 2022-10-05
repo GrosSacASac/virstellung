@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.0.0
+
+- SelectImage returns an array with 2 items
+- 0 canPutInisdeForm with select and hidden input
+- 1 mustBeOutsideForm with the dialog and the form to close the dialog
+- Change is due to the fact that `<form method="dialog"><button>Close` cannot be nested inside another form even if the dialog is hidden
+- put the first element where the whole used to be
+- and the second just before the body end tag
+
 ## 4.2.0
 
 - Add close button to select dialog

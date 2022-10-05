@@ -161,9 +161,10 @@ const selectImage = (options, fileSelected=``) => {
     // disabled initially to avoid sending the value twice
     const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
     const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button></form></dialog>`;
-    
-    return `<fieldset class="virstellung-form" data-scope="${id}">
-    ${initialSelect}${hiddenButton}${hiddenInput}${hiddenVirstellung}
+
+    const canPutInisdeForm=`<fieldset class="virstellung-form" data-scope="${id}">${initialSelect}${hiddenButton}${hiddenInput}
     </fieldset>`;
+    const mustBeOutsideForm=`<div data-scope="${id}">${hiddenVirstellung}</div>`;
+    return [canPutInisdeForm, mustBeOutsideForm];
 };
 

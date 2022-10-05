@@ -103,9 +103,34 @@ const handleDynamicPages =  async (request, response) => {
             <script type="module" src="${baseURL}virstellungAutoLaunch.es.js"></script>
 </body></html>`);
     return;
-    } 
-        response.writeHead(httpCodeFromText[`OK`],  {[`Content-Type`]: `text/html`});
-        response.end(`<!doctype html>
+    }
+
+    const [canPutInisdeForm, mustBeOutsideForm] = selectImage({
+        slideItems: items.map(file => {
+            return {
+                label: file.split(`.`)[0],
+                file: `${file}`,
+                mime: mime.getType(file),
+            };
+        }),
+        formName: `imageS`,
+        id:`imageS`,
+        closeLabel: `Close`,
+    }, items[0]);
+    const [canPutInisdeFormB, mustBeOutsideFormB] = selectImage({
+        slideItems: items.map(file => {
+            return {
+                label: file.split(`.`)[0],
+                file: `${file}`,
+                mime: mime.getType(file),
+            };
+        }),
+        formName: `imageS2`,
+        id:`imageS2`,
+        closeLabel: `Close second image picker`,
+    }, items[1]);
+    response.writeHead(httpCodeFromText[`OK`],  {[`Content-Type`]: `text/html`});
+    response.end(`<!doctype html>
     <html >
     <head>
         <meta charset="utf-8">
@@ -118,35 +143,15 @@ const handleDynamicPages =  async (request, response) => {
             height: initial;
         }</style>
         <style>${commonCss}</style>
-    </head><body><form method="POST" action="formS"> 
-    ${selectImage({
-        slideItems: items.map(file => {
-            return {
-                label: file.split(`.`)[0],
-                file: `${file}`,
-                mime: mime.getType(file),
-            };
-        }),
-        formName: `imageS`,
-        id:`imageS`,
-        closeLabel: `Close`,
-    }, items[0])}
-    ${selectImage({
-        slideItems: items.map(file => {
-            return {
-                label: file.split(`.`)[0],
-                file: `${file}`,
-                mime: mime.getType(file),
-            };
-        }),
-        formName: `imageS2`,
-        id:`imageS2`,
-        closeLabel: `Close second image picker`,
-    }, items[1])}
-                <button>Submit Form</button>
-
-                </form>
-                <script type="module" src="${baseURL}selectHelper.es.js"></script>
+    </head><body>
+        <form method="POST" action="formS"> 
+            ${canPutInisdeForm}
+            ${canPutInisdeFormB}
+            <button>Submit Form</button>
+        </form>
+    <script type="module" src="${baseURL}selectHelper.es.js"></script>
+    ${mustBeOutsideForm}
+    ${mustBeOutsideFormB}
     </body></html>`);
         return;
     
