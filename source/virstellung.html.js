@@ -95,7 +95,7 @@ const virstellungBase = ({
     }
     let clickFunction = ``;
     if (onClick) {
-        clickFunction = `data-function="${onClick}" tabindex="0" aria-role="button"`;
+        clickFunction = `data-function="${onClick}" tabindex="0" `;
         generateHref = function () {
             return ``;
         }
@@ -162,8 +162,8 @@ const selectImage = (options, fileSelected=``) => {
     const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
     const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button></form></dialog>`;
 
-    const putInsideLabel=`<div class="virstellung-form" data-scope="${id}">${initialSelect}</div>`;
-    const putOutsideLabel=`<div hidden data-scope="${id}">${hiddenButton}${hiddenInput}</div>`;
+    const putInsideLabel=`<span class="virstellung-form" data-scope="${id}">${initialSelect}</span>`;
+    const putOutsideLabel=`<span hidden data-scope="${id}">${hiddenButton}${hiddenInput}</span>`;
     const putOutsideForm=`<div data-scope="${id}">${hiddenVirstellung}</div>`;
     return [putInsideLabel, putOutsideLabel, putOutsideForm];
 };
