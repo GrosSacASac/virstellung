@@ -162,9 +162,9 @@ const selectImage = (options, fileSelected=``) => {
     const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
     const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button></form></dialog>`;
 
-    const canPutInisdeForm=`<fieldset class="virstellung-form" data-scope="${id}">${initialSelect}${hiddenButton}${hiddenInput}
-    </fieldset>`;
-    const mustBeOutsideForm=`<div data-scope="${id}">${hiddenVirstellung}</div>`;
-    return [canPutInisdeForm, mustBeOutsideForm];
+    const putInsideLabel=`<div class="virstellung-form" data-scope="${id}">${initialSelect}</div>`;
+    const putOutsideLabel=`<div hidden data-scope="${id}">${hiddenButton}${hiddenInput}</div>`;
+    const putOutsideForm=`<div data-scope="${id}">${hiddenVirstellung}</div>`;
+    return [putInsideLabel, putOutsideLabel, putOutsideForm];
 };
 

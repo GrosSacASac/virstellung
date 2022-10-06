@@ -38,6 +38,7 @@ dialog:not([open]) {
 body {
     margin:0;
     padding:0;
+    color: white;
     background-color: #eee;
     background-image: linear-gradient(3330deg, #000012 , #432222);
 }
@@ -105,7 +106,7 @@ const handleDynamicPages =  async (request, response) => {
     return;
     }
 
-    const [canPutInisdeForm, mustBeOutsideForm] = selectImage({
+    const [putInsideLabel, putOutsideLabel, putOutsideForm] = selectImage({
         slideItems: items.map(file => {
             return {
                 label: file.split(`.`)[0],
@@ -118,7 +119,7 @@ const handleDynamicPages =  async (request, response) => {
         id:`imageS`,
         closeLabel: `Close`,
     }, items[0]);
-    const [canPutInisdeFormB, mustBeOutsideFormB] = selectImage({
+    const [putInsideLabelB, putOutsideLabelB, putOutsideFormB] = selectImage({
         slideItems: items.map(file => {
             return {
                 label: file.split(`.`)[0],
@@ -147,13 +148,17 @@ const handleDynamicPages =  async (request, response) => {
         <style>${commonCss}</style>
     </head><body>
         <form method="POST" action="formS"> 
-            ${canPutInisdeForm}
-            ${canPutInisdeFormB}
+            <label>First image select${putInsideLabel}</label>
+            ${putOutsideLabel}
+            <label>Second image select${putInsideLabelB}</label>
+            ${putOutsideLabelB}
+
+            
             <button>Submit Form</button>
         </form>
     <script type="module" src="${baseURL}selectHelper.es.js"></script>
-    ${mustBeOutsideForm}
-    ${mustBeOutsideFormB}
+    ${putOutsideForm}
+    ${putOutsideFormB}
     </body></html>`);
         return;
     

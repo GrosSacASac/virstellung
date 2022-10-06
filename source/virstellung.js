@@ -179,8 +179,10 @@ const augmentSelect = (id = ``) => {
         return;
     }
     stellFir(id);
-    d.elements[d.scopeFromArray([id, `initialSelect`])].hidden = true;
-    d.elements[d.scopeFromArray([id, `initialSelect`])].disabled = true;
+    // can only have 1 input per <label>
+    const insideLabelNode = d.elements[d.scopeFromArray([id, `initialSelect`])].parentNode;
+    d.elements[d.scopeFromArray([id, `initialSelect`])].remove();
+    insideLabelNode.appendChild(d.elements[d.scopeFromArray([id, `hiddenButton`])]);
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
     d.elements[d.scopeFromArray([id, `hiddenInput`])].disabled = false;
     

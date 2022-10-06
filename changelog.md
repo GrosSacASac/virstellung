@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.0.0
+
+- SelectImage returns an array with 3 items
+- this is to fix the fact that a label is supposed to only have maximum 1 input
+- 0 putInsideLabel with select :  put it inside a label inside a form
+- 1 putOutsideLabel: with hidden input: put it after the label in the same form
+- 2 putOutsideForm: same as before put it after the form before the closing body
+
 ## 5.0.0
 
 - SelectImage returns an array with 2 items
