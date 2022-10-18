@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.0
+
+Use dom99@26.0.0
+
+- Requires support for Object.hasOwn
+- Requires support for document.createTreeWalker
+- Requires support for WeakMap
+
 ## 6.0.0
 
 - SelectImage returns an array with 3 items
