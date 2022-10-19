@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.1.0
+
+augmentSelect has an additional optional parameter onChange. It will be called with the value, that is selected.
+
 ## 7.0.0
 
 Use dom99@26.0.0

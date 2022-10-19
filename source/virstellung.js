@@ -7,7 +7,6 @@ import { supportsDialog } from "./dialog.js";
 
 const e0 = `error loading`;
 d.plugin(keyboard);
-window.d = d;
 const initialTitle = document.title;
 // used for media keys
 let lastScope;
@@ -141,6 +140,7 @@ d.functions.optionalSelect = function(event) {
     d.feed(d.scopeFromArray([scope, `virstellungSelect`]), slideItems[currentSlide].value);
     d.feed(d.scopeFromArray([scope, `virstellungLabel`]), slideItems[currentSlide].label);
     d.elements[d.scopeFromArray([scope, `virstellungSelect`])].close();
+    selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(slideItems[currentSlide].value);
 };
 
 
@@ -174,7 +174,9 @@ try {
 } catch (error) {
     //
 }
-const augmentSelect = (id = ``) => {
+const selectOnChange = new WeakMap();
+
+const augmentSelect = (id = ``, onChange=function(){}) => {
     if (!supportsDialog) {
         return;
     }
@@ -185,7 +187,7 @@ const augmentSelect = (id = ``) => {
     insideLabelNode.appendChild(d.elements[d.scopeFromArray([id, `hiddenButton`])]);
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
     d.elements[d.scopeFromArray([id, `hiddenInput`])].disabled = false;
-    
+    selectOnChange.set(d.elements[d.scopeFromArray([id, `hiddenInput`])], onChange);
     const currentSlide = (Number(d.get(id, `currentSlide`)));
     displayX(currentSlide, id)
     lastScope = id;
