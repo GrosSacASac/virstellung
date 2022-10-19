@@ -148,12 +148,12 @@ const handleDynamicPages =  async (request, response) => {
         <style>${commonCss}</style>
     </head><body>
         <form method="POST" action="formS"> 
+            <label>Regular input <input value="a"></label>
             <label>First image select${putInsideLabel}</label>
             ${putOutsideLabel}
             <label>Second image select${putInsideLabelB}</label>
             ${putOutsideLabelB}
 
-            
             <button>Submit Form</button>
         </form>
     <script type="module" src="${baseURL}selectHelper.es.js"></script>
