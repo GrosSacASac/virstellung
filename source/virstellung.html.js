@@ -157,14 +157,16 @@ const selectImage = (options, fileSelected=``) => {
         return `<option value="${value}" ${selected}>${label}</option>`;
     }).join(``)}
     </select>`;
-    const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton">${labelSelected}</button>`;
+    const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton" form="otherF${id}">${labelSelected}</button>`;
     // disabled initially to avoid sending the value twice
     const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
     const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button></form></dialog>`;
 
     const putInsideLabel=`<span class="virstellung-form" data-scope="${id}">${initialSelect}</span>`;
     const putOutsideLabel=`<span hidden data-scope="${id}">${hiddenButton}${hiddenInput}</span>`;
-    const putOutsideForm=`<div data-scope="${id}">${hiddenVirstellung}</div>`;
+    const putOutsideForm=`
+    <form id="otherF${id}"></form>
+    <div data-scope="${id}">${hiddenVirstellung}</div>`;
     return [putInsideLabel, putOutsideLabel, putOutsideForm];
 };
 
