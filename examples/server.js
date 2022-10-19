@@ -148,7 +148,7 @@ const handleDynamicPages =  async (request, response) => {
         <style>${commonCss}</style>
     </head><body>
         <form method="POST" action="formS"> 
-            <label>Regular input <input value="a"></label>
+            <label>Regular input <input value="a" name="text"></label>
             <label>First image select${putInsideLabel}</label>
             ${putOutsideLabel}
             <label>Second image select${putInsideLabelB}</label>
