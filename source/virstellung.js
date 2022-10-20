@@ -140,7 +140,9 @@ d.functions.optionalSelect = function(event) {
     d.feed(d.scopeFromArray([scope, `virstellungSelect`]), slideItems[currentSlide].value);
     d.feed(d.scopeFromArray([scope, `virstellungLabel`]), slideItems[currentSlide].label);
     d.elements[d.scopeFromArray([scope, `virstellungSelect`])].close();
-    selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(slideItems[currentSlide].value);
+    if (event) {
+        selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(slideItems[currentSlide].value);
+    }
 };
 
 
