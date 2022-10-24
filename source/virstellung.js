@@ -1,6 +1,7 @@
 export {stellFir, augmentSelect};
 
 import * as d from "dom99";
+import { memoizeAsStrings } from "utilsac";
 import { keyboard } from "dom99/plugins/keyboard/keyboard.js";
 import { supportsDialog } from "./dialog.js";
 
@@ -11,9 +12,9 @@ const initialTitle = document.title;
 // used for media keys
 let lastScope;
 
-const slideItemsFromScope = (scope) => {
+const slideItemsFromScope = memoizeAsStrings((scope) => {
     return JSON.parse(d.get(scope, `slideItems`));
-};
+});
 
 const virstellungPreviousCancel = function (event) {
     event?.preventDefault?.();

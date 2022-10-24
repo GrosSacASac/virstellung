@@ -44,5 +44,8 @@
   "devDependencies": {
     "eslint": "^8.26.0",
     "eslint-config-red": "^1.9.1"
+  },
+  "dependencies": {
+    "utilsac": "^15.2.0"
   }
 }
