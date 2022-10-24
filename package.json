@@ -42,7 +42,7 @@
     "show"
   ],
   "devDependencies": {
-    "eslint": "^8.24.0",
+    "eslint": "^8.26.0",
     "eslint-config-red": "^1.9.1"
   }
 }
