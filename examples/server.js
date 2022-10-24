@@ -87,7 +87,7 @@ const handleDynamicPages =  async (request, response) => {
 <html >
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Regular</title>
     <meta name="viewport" content="width=device-width">
     <link media="screen" href="${baseURL}virstellung.css" rel="stylesheet">
     <style>${commonCss}</style>
@@ -140,7 +140,7 @@ const handleDynamicPages =  async (request, response) => {
     <html >
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>Select</title>
         <meta name="viewport" content="width=device-width">
         <link media="screen" href="${baseURL}virstellung.css" rel="stylesheet">
         <style>
