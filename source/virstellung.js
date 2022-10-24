@@ -61,7 +61,6 @@ const displayX = function (currentSlide, scope) {
     const slideItems = slideItemsFromScope(scope);
     const { file, mime, label, files } = slideItems[currentSlide];
     d.feed(d.scopeFromArray([scope, `currentSlide`]), String(currentSlide));
-    document.title = `${initialTitle} ${label}`;
     const image = d.elements[d.scopeFromArray([scope, `image`])];
     const picture = d.elements[d.scopeFromArray([scope, `picture`])];
     const video = d.elements[d.scopeFromArray([scope, `video`])];
@@ -122,7 +121,11 @@ const displayX = function (currentSlide, scope) {
             d.feed(d.scopeFromArray([scope, `text`]), e0);
         });
     }
-    if (navigator.mediaSession) {
+    console.log(scope);
+    console.log(d.scopeFromArray([scope, `isMain`]));
+    console.log(d.get(d.scopeFromArray([scope, `isMain`])));
+    if (d.get(d.scopeFromArray([scope, `isMain`])) && navigator.mediaSession) {
+        document.title = `${initialTitle} ${label}`;
         navigator.mediaSession.metadata = new MediaMetadata({
             title: file,
         });
@@ -156,7 +159,9 @@ d.functions.openVirstellungSelect = function (event) {
     d.elements[d.scopeFromArray([scope, `virstellungSelect`])].showModal();
 };
 
-const stellFir = (id = ``) => {
+const stellFir = (id = ``, isMain=true) => {
+    
+    d.feed(id, {isMain});
     d.start({
         dataFunctions: {
             virstellungNext,
@@ -165,25 +170,26 @@ const stellFir = (id = ``) => {
             virstellungPreviousCancel,
         },
     });
-    
     d.elements[d.scopeFromArray([id, `audio`])].volume = 0.5;
     d.elements[d.scopeFromArray([id, `video`])].volume = 0.5;
-    lastScope = lastScope ?? id; 
+    lastScope = lastScope ?? id;
+    if (isMain) {
+        try {
+            navigator.mediaSession.setActionHandler(`nexttrack`, virstellungNext);
+            navigator.mediaSession.setActionHandler(`previoustrack`, virstellungPrevious);
+        } catch (error) {
+            //
+        }
+    }
 };
 
-try {
-    navigator.mediaSession.setActionHandler(`nexttrack`, virstellungNext);
-    navigator.mediaSession.setActionHandler(`previoustrack`, virstellungPrevious);
-} catch (error) {
-    //
-}
 const selectOnChange = new WeakMap();
 
 const augmentSelect = (id = ``, onChange=function(){}) => {
     if (!supportsDialog) {
         return;
     }
-    stellFir(id);
+    stellFir(id, false);
     // can only have 1 input per <label>
     const insideLabelNode = d.elements[d.scopeFromArray([id, `initialSelect`])].parentNode;
     d.elements[d.scopeFromArray([id, `initialSelect`])].remove();

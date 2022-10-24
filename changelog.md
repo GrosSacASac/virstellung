@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.2.0
+
+stellFir gets a second argument isMain: default is true. If true the title and media keys are affected by viewing the slides
+
 ## 7.1.0
 
 augmentSelect has an additional optional parameter onChange. It will be called with the value, that is selected.
