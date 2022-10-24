@@ -121,9 +121,7 @@ const displayX = function (currentSlide, scope) {
             d.feed(d.scopeFromArray([scope, `text`]), e0);
         });
     }
-    console.log(scope);
-    console.log(d.scopeFromArray([scope, `isMain`]));
-    console.log(d.get(d.scopeFromArray([scope, `isMain`])));
+
     if (d.get(d.scopeFromArray([scope, `isMain`])) && navigator.mediaSession) {
         document.title = `${initialTitle} ${label}`;
         navigator.mediaSession.metadata = new MediaMetadata({
