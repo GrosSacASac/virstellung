@@ -42,6 +42,9 @@ body {
     background-color: #eee;
     background-image: linear-gradient(3330deg, #000012 , #432222);
 }
+label {
+    display:block;
+}
 `;
 
 const generateHref = function (index/*, item */) {
