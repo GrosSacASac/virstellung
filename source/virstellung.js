@@ -190,6 +190,7 @@ const augmentSelect = (id = ``, onChange=function(){}) => {
     stellFir(id, false);
     // can only have 1 input per <label>
     const insideLabelNode = d.elements[d.scopeFromArray([id, `initialSelect`])].parentNode;
+    const multiple = (d.elements[d.scopeFromArray([id, `initialSelect`])].getAttribute("multiple") !== null);
     d.elements[d.scopeFromArray([id, `initialSelect`])].remove();
     insideLabelNode.appendChild(d.elements[d.scopeFromArray([id, `hiddenButton`])]);
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;

@@ -139,12 +139,16 @@ the hidden input holds the value and sends it in the form as the select would.
 the button is displayed and when clicked opens a dialog to chose an image.
 Once chosen the button display and the hidden input value are updated
 */
-const selectImage = (options, fileSelected=``) => {
+const selectImage = (options, fileSelected=``, multiple=false) => {
     const {slideItems, id = ``, formName, closeLabel=`Close`} = options;
     //if enabled replace with button
     let currentSlide = 0;
     let labelSelected = `Select`;
-    const initialSelect = `<select name=${formName} data-element="initialSelect">
+    let multipleHtml = ``;
+    if (multiple) {
+        multipleHtml = `multiple`
+    }
+    const initialSelect = `<select name=${formName} data-element="initialSelect" ${multipleHtml}>
     ${slideItems.map((slideItem, i) => {
         const {file, label, value=file} = slideItem;
         slideItem.value = value;
