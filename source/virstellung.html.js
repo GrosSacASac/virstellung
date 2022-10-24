@@ -62,15 +62,15 @@ const virstellungBase = ({
         } else {
             imageHidden = ``;
             imagealt = label;
-            imagesrc = file;
+            imagesrc = `src="${file}"`;
         }
     } else if (mime.startsWith(`video`)) {
         videoHidden = ``;
-        videosrc = file;
+        videosrc = `src="${file}"`;
         videmime = mime;
     } else if (mime.startsWith(`audio`)) {
         audioHidden = ``;
-        audiosrc = file;
+        audiosrc = `src="${file}"`;
         audiomime = mime;
     } else if (mime.startsWith(`text`)) {
         textHidden = ``;
@@ -106,10 +106,10 @@ const virstellungBase = ({
         <picture ${pictureHidden} data-element="picture">
             ${pictureInnerHtml}
         </picture>
-        <img data-element="image" alt="${imagealt}" src="${imagesrc}" ${imageHidden}>
+        <img data-element="image" alt="${imagealt}" ${imagesrc} ${imageHidden}>
         <img data-element="preloader" hidden>
-        <audio data-element="audio" type="${audiomime}" src="${audiosrc}" controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
-        <video data-element="video" type="${videmime}" src="${videosrc}" controls autoplay ${videoHidden}></video>
+        <audio data-element="audio" type="${audiomime}" ${audiosrc} controls autoplay ${audioHidden} data-function="ended-virstellungNext"></audio>
+        <video data-element="video" type="${videmime}" ${videosrc} controls autoplay ${videoHidden}></video>
         <pre data-element="text" data-variable="text" ${textHidden}>${text}</pre>
         <div class="hoverSelect"><p>✅</p></div>
     </div>
