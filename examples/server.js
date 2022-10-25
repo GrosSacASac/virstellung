@@ -134,7 +134,7 @@ const handleDynamicPages =  async (request, response) => {
         formName: `imageS2`,
         id:`imageS2`,
         closeLabel: `Close second image picker`,
-    }, items[1]);
+    }, items[1], true);
     response.writeHead(httpCodeFromText[`OK`],  {[`Content-Type`]: `text/html`});
     response.end(`<!doctype html>
     <html >

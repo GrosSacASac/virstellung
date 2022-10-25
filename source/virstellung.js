@@ -132,19 +132,36 @@ const displayX = function (currentSlide, scope) {
 
 
 d.functions.optionalSelect = function(event) {
-    
     const scope = d.scopeFromEvent(event) ?? lastScope;
-    lastScope = scope;
     const slideItems = slideItemsFromScope(scope);
+    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute("multiple") !== null);
     
-    const currentSlide = (Number(d.get(scope, `currentSlide`)));
+    const currentSlide = Number(d.get(scope, `currentSlide`));
     d.feed(d.scopeFromArray([scope, `selected`]), currentSlide);
     d.feed(d.scopeFromArray([scope, `virstellungSelect`]), slideItems[currentSlide].value);
     d.feed(d.scopeFromArray([scope, `virstellungLabel`]), slideItems[currentSlide].label);
-    d.elements[d.scopeFromArray([scope, `virstellungSelect`])].close();
-    if (event) {
-        selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(slideItems[currentSlide].value);
+    if (!multiple) {
+        d.elements[d.scopeFromArray([scope, `virstellungSelect`])].close();
+        if (event) {
+            selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(slideItems[currentSlide].value);
+        }
+        return;
     }
+    let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]), currentSlide);
+    if (!currentSelection) {
+        currentSelection = [];
+    }
+    const alreadySelected = currentSelection.includes(currentSlide);
+    if (alreadySelected) {
+        
+        currentSelection.splice(currentSelection.indexOf(currentSlide), 1);
+
+    } else {
+        currentSelection.push(currentSlide)
+    }
+    console.log(currentSelection);
+    console.log(scope);
+    d.feed(d.scopeFromArray([scope, `virstellungSelection`]), currentSelection);
 };
 
 
@@ -152,7 +169,7 @@ d.functions.openVirstellungSelect = function (event) {
     event.preventDefault();
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
-    const currentSlideSelected = (Number(d.get(scope, `selected`)));
+    const currentSlideSelected = Number(d.get(scope, `selected`));
     displayX(currentSlideSelected, scope)
     d.elements[d.scopeFromArray([scope, `virstellungSelect`])].showModal();
 };
