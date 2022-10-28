@@ -143,8 +143,13 @@ d.functions.confirmSelect = function(event) {
         return;
     }
     let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
-    selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(currentSelection);
-    // todo feed in the select or input
+    const values = currentSelection.map(function(index) {
+        return slideItems[index].value;
+    })
+    selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(values);
+    
+    d.feed(d.scopeFromArray([scope, `virstellungLabel`]), `${currentSelection.length}`);
+    d.feed(d.scopeFromArray([scope, `virstellungSelect`]), values.join(","));
 };
 
 d.functions.optionalSelect = function(event) {
@@ -175,8 +180,6 @@ d.functions.optionalSelect = function(event) {
     } else {
         currentSelection.push(currentSlide)
     }
-    console.log(currentSelection);
-    console.log(scope);
     d.feed(d.scopeFromArray([scope, `virstellungSelection`]), currentSelection);
     d.feed(d.scopeFromArray([scope, `count`]), ` (${currentSelection.length})`);
 };
