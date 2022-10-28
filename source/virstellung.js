@@ -130,6 +130,22 @@ const displayX = function (currentSlide, scope) {
     }
 };
 
+d.functions.confirmSelect = function(event) {
+    const scope = d.scopeFromEvent(event) ?? lastScope;
+    const slideItems = slideItemsFromScope(scope);
+    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute("multiple") !== null);
+    const cancelling = (d.elements[d.scopeFromArray([scope, `virstellungSelect`])].returnValue === "");
+    if (cancelling) {
+        return;
+    }
+    if (!multiple) {
+        d.functions.optionalSelect(event);
+        return;
+    }
+    let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
+    selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(currentSelection);
+    // todo feed in the select or input
+};
 
 d.functions.optionalSelect = function(event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
@@ -147,7 +163,7 @@ d.functions.optionalSelect = function(event) {
         }
         return;
     }
-    let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]), currentSlide);
+    let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
     if (!currentSelection) {
         currentSelection = [];
     }
@@ -162,6 +178,7 @@ d.functions.optionalSelect = function(event) {
     console.log(currentSelection);
     console.log(scope);
     d.feed(d.scopeFromArray([scope, `virstellungSelection`]), currentSelection);
+    d.feed(d.scopeFromArray([scope, `count`]), ` (${currentSelection.length})`);
 };
 
 

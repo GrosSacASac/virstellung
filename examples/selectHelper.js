@@ -1,4 +1,4 @@
 import {augmentSelect} from "../source/virstellung.js";
 
-augmentSelect(`imageS`);
-augmentSelect(`imageS2`);
+augmentSelect(`imageS`, console.log);
+augmentSelect(`imageS2`, console.log);
