@@ -10,7 +10,7 @@
     "lint": "eslint --ignore-path .gitignore ."
   },
   "optionalDependencies": {
-    "dom99": "^26.1.0"
+    "dom99": "^26.1.1"
   },
   "eslintConfig": {
     "extends": [

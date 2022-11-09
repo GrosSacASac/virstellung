@@ -63,7 +63,18 @@
     align-items: center ;
 }
 
-.imageContainer[data-function]:hover > .hoverSelect {
+.imageContainer[data-function]:hover > .hoverSelect{
+	
+	background-color: rgba(51, 124, 51, 0.6);
+}
+
+
+.imageContainer.selected > .hoverSelect{
+    background-color: rgba(25, 68, 25, 0.6);
+}
+
+.imageContainer[data-function]:hover > .hoverSelect,
+.imageContainer.selected > .hoverSelect {
 	transform: translateX(0) rotate(0);
 }
 
@@ -81,7 +92,7 @@
     align-items: center;
     margin: auto;
     padding: auto;
-	background-color: rgba(25, 68, 25, 0.6);
+	
 	
 	transform: translateY(-100%) rotate(0);
 

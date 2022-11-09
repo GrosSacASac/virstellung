@@ -128,6 +128,15 @@ const displayX = function (currentSlide, scope) {
             title: file,
         });
     }
+    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute("multiple") !== null);
+    if (multiple) {
+        let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
+        if (!currentSelection) {
+            currentSelection = [];
+        }
+        const alreadySelected = currentSelection.includes(currentSlide);
+        d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle("selected", !alreadySelected);
+    }
 };
 
 d.functions.confirmSelect = function(event) {
@@ -180,6 +189,7 @@ d.functions.optionalSelect = function(event) {
     } else {
         currentSelection.push(currentSlide)
     }
+    d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle("selected", !alreadySelected);
     d.feed(d.scopeFromArray([scope, `virstellungSelection`]), currentSelection);
     d.feed(d.scopeFromArray([scope, `count`]), ` (${currentSelection.length})`);
 };

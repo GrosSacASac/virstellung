@@ -95,7 +95,7 @@ const virstellungBase = ({
     }
     let clickFunction = ``;
     if (onClick) {
-        clickFunction = `data-function="${onClick}" tabindex="0" `;
+        clickFunction = `data-function="${onClick}" data-element="optionalSelect" tabindex="0" `;
         generateHref = function () {
             return ``;
         }
