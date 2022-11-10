@@ -73,6 +73,10 @@
     background-color: rgba(25, 68, 25, 0.6);
 }
 
+.imageContainer.selected:hover > .hoverSelect{
+    background-color: rgba(83, 39, 30, 0.6);
+}
+
 .imageContainer[data-function]:hover > .hoverSelect,
 .imageContainer.selected > .hoverSelect {
 	transform: translateX(0) rotate(0);

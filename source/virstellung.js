@@ -135,7 +135,7 @@ const displayX = function (currentSlide, scope) {
             currentSelection = [];
         }
         const alreadySelected = currentSelection.includes(currentSlide);
-        d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle("selected", !alreadySelected);
+        d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle("selected", alreadySelected);
     }
 };
 
@@ -177,10 +177,7 @@ d.functions.optionalSelect = function(event) {
         }
         return;
     }
-    let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
-    if (!currentSelection) {
-        currentSelection = [];
-    }
+    const currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
     const alreadySelected = currentSelection.includes(currentSlide);
     if (alreadySelected) {
         
@@ -243,9 +240,28 @@ const augmentSelect = (id = ``, onChange=function(){}) => {
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
     d.elements[d.scopeFromArray([id, `hiddenInput`])].disabled = false;
     selectOnChange.set(d.elements[d.scopeFromArray([id, `hiddenInput`])], onChange);
+    
     const currentSlide = (Number(d.get(id, `currentSlide`)));
-    displayX(currentSlide, id)
     lastScope = id;
-    d.functions.optionalSelect();
+    if (!multiple) {
+        displayX(currentSlide, id);
+
+        d.functions.optionalSelect();
+        return;
+    }
+    
+    const slideItems = slideItemsFromScope(id);
+    d.feed(d.scopeFromArray([id, `selected`]), currentSlide);
+    d.feed(d.scopeFromArray([id, `virstellungSelect`]), slideItems[currentSlide].value);
+    d.feed(d.scopeFromArray([id, `virstellungLabel`]), slideItems[currentSlide].label);
+    const currentSelection = d.get(d.scopeFromArray([id, `virstellungSelect`])).split(",").map(function (value) {
+        return slideItems.findIndex(({file}) => {
+            return value === file;
+        })
+    });
+    
+    d.feed(d.scopeFromArray([id, `virstellungSelection`]), currentSelection);
+    
+    displayX(currentSlide, id);
 
 };
