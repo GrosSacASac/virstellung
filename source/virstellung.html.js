@@ -95,7 +95,7 @@ const virstellungBase = ({
     }
     let clickFunction = ``;
     if (onClick) {
-        clickFunction = `data-function="${onClick}" tabindex="0" `;
+        clickFunction = `data-function="${onClick}" data-element="optionalSelect" tabindex="0" `;
         generateHref = function () {
             return ``;
         }
@@ -139,12 +139,16 @@ the hidden input holds the value and sends it in the form as the select would.
 the button is displayed and when clicked opens a dialog to chose an image.
 Once chosen the button display and the hidden input value are updated
 */
-const selectImage = (options, fileSelected=``) => {
-    const {slideItems, id = ``, formName, closeLabel=`Close`} = options;
+const selectImage = (options, fileSelected=``, multiple=false) => {
+    const {slideItems, id = ``, formName, closeLabel=`Close`, confirmLabel=`Confirm`} = options;
     //if enabled replace with button
     let currentSlide = 0;
     let labelSelected = `Select`;
-    const initialSelect = `<select name=${formName} data-element="initialSelect">
+    let multipleHtml = ``;
+    if (multiple) {
+        multipleHtml = `multiple`
+    }
+    const initialSelect = `<select name=${formName} data-element="initialSelect" ${multipleHtml}>
     ${slideItems.map((slideItem, i) => {
         const {file, label, value=file} = slideItem;
         slideItem.value = value;
@@ -160,7 +164,7 @@ const selectImage = (options, fileSelected=``) => {
     const hiddenButton = `<button hidden data-variable="virstellungLabel" data-function="openVirstellungSelect" data-element="hiddenButton" form="otherF${id}">${labelSelected}</button>`;
     // disabled initially to avoid sending the value twice
     const hiddenInput = `<input disabled type="hidden" data-variable="virstellungSelect" data-element="hiddenInput" name="${formName}" value="${fileSelected}">`;
-    const hiddenVirstellung = `<dialog data-element="virstellungSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button></form></dialog>`;
+    const hiddenVirstellung = `<dialog data-element="virstellungSelect" data-function="confirmSelect" class="virstellung-select">${virstellungBase({...options, onClick: `optionalSelect`, currentSlide})}<form method="dialog"><button>${closeLabel}</button><button value="confirm">${confirmLabel}<span data-variable="count"></span></button></form></dialog>`;
 
     const putInsideLabel=`<span class="virstellung-form" data-scope="${id}">${initialSelect}</span>`;
     const putOutsideLabel=`<span hidden data-scope="${id}">${hiddenButton}${hiddenInput}</span>`;

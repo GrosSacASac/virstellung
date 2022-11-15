@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.3.0
+
+selectImage gets a third optional argument, multiple, if true, it will act like a `<select multiple>`
+in that case onChange will receive an array of values
+
 ## 7.2.0
 
 stellFir gets a second argument isMain: default is true. If true the title and media keys are affected by viewing the slides

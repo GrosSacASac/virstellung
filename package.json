@@ -1,6 +1,6 @@
 {
   "name": "virstellung",
-  "version": "7.2.1",
+  "version": "7.3.0",
   "description": "Slide show",
   "license": "CC0-1.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "lint": "eslint --ignore-path .gitignore ."
   },
   "optionalDependencies": {
-    "dom99": "^26.0.1"
+    "dom99": "^26.1.1"
   },
   "eslintConfig": {
     "extends": [
