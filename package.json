@@ -7,7 +7,8 @@
   "main": "source/virstellung.html.js",
   "scripts": {
     "lint-fix": "eslint --ignore-path .gitignore --fix .",
-    "lint": "eslint --ignore-path .gitignore ."
+    "lint": "eslint --ignore-path .gitignore .",
+    "start": "node ./examples/server.js"
   },
   "optionalDependencies": {
     "dom99": "^26.1.1"
