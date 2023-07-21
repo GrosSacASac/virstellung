@@ -15,8 +15,8 @@ switch to the next/previous slide without a full page refresh.
 
 ## virstellung.html.js
 
-Function that generates html code. This code should be inserted into the `<body>`.
-If getText is used, it returns a promise, otherwise it returns a string
+virstellung is a function that generates html code. This code should be inserted into the `<body>`.
+returns a promise
 
 ### Example
 
