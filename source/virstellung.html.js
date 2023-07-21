@@ -5,7 +5,7 @@ const identity = function(x) {
     return x;
 };
 
-const pictureHtmlFromSources = (sources) => {
+const pictureHtmlFromSources = (sources, label) => {
 
     let pictureInnerHtml = ``;
     sources.forEach((imageVersion, i) => {
@@ -60,7 +60,7 @@ const virstellungBase = ({
     const {url, mime, label, sources} = slideItems[currentSlide];
     if (mime.startsWith(`image`)) {
         if (sources) {
-            pictureInnerHtml = pictureHtmlFromSources(sources);
+            pictureInnerHtml = pictureHtmlFromSources(sources, label);
             
             pictureHidden = ``;
         } else {
