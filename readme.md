@@ -7,6 +7,8 @@ have the default behaviour
 removed and
 switch to the next/previous slide without a full page refresh.
 
+The improved select requires `<dialog>` support (progressive enhancement)
+
 ## Installation
 
 [`npm i virstellung`](https://www.npmjs.com/package/virstellung)
