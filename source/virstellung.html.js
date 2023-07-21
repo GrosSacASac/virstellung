@@ -42,18 +42,18 @@ const virstellungBase = ({
     let videoHidden = `hidden`;
     let textHidden = `hidden`;
     
-    const {file, mime, label, files} = slideItems[currentSlide];
+    const {url, mime, label, sources} = slideItems[currentSlide];
     if (mime.startsWith(`image`)) {
-        if (files) {
-            files.forEach((imageVersion, i) => {
-                const {mime, file, media} = imageVersion;
+        if (sources) {
+            sources.forEach((imageVersion, i) => {
+                const {mime, url, media} = imageVersion;
                 let sourceHtml;
-                if (i + 1 < files.length) {
-                    sourceHtml = `<source srcset="${file}" media="${media}" type="${mime}">`;
+                if (i + 1 < url.length) {
+                    sourceHtml = `<source srcset="${url}" media="${media}" type="${mime}">`;
 
                 } else {
                     // last source should be fallback image
-                    sourceHtml = `<img alt="${label}" src="${file}" type="${mime}">`;
+                    sourceHtml = `<img alt="${label}" src="${url}" type="${mime}">`;
                 }
                 pictureInnerHtml = `${pictureInnerHtml}${sourceHtml}`;
             });
@@ -62,24 +62,24 @@ const virstellungBase = ({
         } else {
             imageHidden = ``;
             imagealt = label;
-            imagesrc = `src="${file}"`;
+            imagesrc = `src="${url}"`;
         }
     } else if (mime.startsWith(`video`)) {
         videoHidden = ``;
-        videosrc = `src="${file}"`;
+        videosrc = `src="${url}"`;
         videmime = mime;
     } else if (mime.startsWith(`audio`)) {
         audioHidden = ``;
-        audiosrc = `src="${file}"`;
+        audiosrc = `src="${url}"`;
         audiomime = mime;
     } else if (mime.startsWith(`text`)) {
         textHidden = ``;
-        const {fileAlone, temp} = slideItems[currentSlide];
+        const {url, temp} = slideItems[currentSlide];
         if (temp) {
             text = temp;
             delete slideItems[currentSlide].temp;
         } else {
-            return Promise.resolve(getText(fileAlone)).then(text => {
+            return Promise.resolve(getText(url)).then(text => {
                 slideItems[currentSlide].temp = text;
                 return virstellungBase({
                     slideItems,
@@ -150,10 +150,10 @@ const selectImage = (options, fileSelected=``, multiple=false) => {
     }
     const initialSelect = `<select name=${formName} data-element="initialSelect" ${multipleHtml}>
     ${slideItems.map((slideItem, i) => {
-        const {file, label, value=file} = slideItem;
+        const {url, label, value=url} = slideItem;
         slideItem.value = value;
         let selected = ``;
-        if (fileSelected === file) {
+        if (fileSelected === url) {
             labelSelected = label;
             currentSlide = i;
             selected = `selected`;

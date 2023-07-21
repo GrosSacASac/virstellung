@@ -17,8 +17,7 @@ const __dirname = path.dirname(__filename);
 const cliArgs = parseCli();
 let {baseURL} = cliArgs;
 baseURL = new URL(baseURL);
-
-const {PORT} = cliArgs;
+const {port} = baseURL;
 
 const slideShowParamName = `a`;
 const currentSlideParam = `currentslide`;
@@ -96,8 +95,8 @@ const handleDynamicPages =  async (request, response) => {
                 slideItems: items.map(file => {
                     return {
                         label: file,
-                        file: `${file}`,
-                        fileAlone: file,
+                        url: `${file}`,
+                        file,
                         mime: mime.getType(file),
                     };
                 }),
@@ -113,7 +112,7 @@ const handleDynamicPages =  async (request, response) => {
         slideItems: items.map(file => {
             return {
                 label: file.split(`.`)[0],
-                file: `${file}`,
+                url: `${file}`,
                 value: file,
                 mime: mime.getType(file),
             };
@@ -126,7 +125,7 @@ const handleDynamicPages =  async (request, response) => {
         slideItems: items.map(file => {
             return {
                 label: file.split(`.`)[0],
-                file: `${file}`,
+                url: `${file}`,
                 value: file,
                 mime: mime.getType(file),
             };
@@ -223,8 +222,8 @@ const server = http.createServer(async (request, response) => {
 });
 
 const startServer = function () {
-    server.listen(PORT);
-    console.log(`Listening on ${PORT}
+    server.listen(port);
+    console.log(`Listening on ${port}
 `);
 };
 

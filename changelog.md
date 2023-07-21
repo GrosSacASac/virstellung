@@ -1,5 +1,16 @@
 # Changelog
 
+## 9.0.0
+
+ * Rename fileAlone into file
+ * Rename file into url
+ * Rename files into sources
+
+
+## 8.0.0
+
+fileSelected option is now indexed based (number) similar to currentSlide. Use undefined to not have anything selected 
+
 ## 7.3.0
 
 selectImage gets a third optional argument, multiple, if true, it will act like a `<select multiple>`

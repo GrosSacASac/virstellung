@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server baseURL=http://localhost:7999 PORT=7999",
+    "start": "node server baseURL=http://localhost:7999",
     "bundle": "rollup --config tools/rollup.config.js"
   },
   "dependencies": {

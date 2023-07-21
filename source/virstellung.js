@@ -51,15 +51,15 @@ const virstellungNext = function (event) {
 const preloadX = function (slide, scope) {
     // only preload images
     const slideItems = slideItemsFromScope(scope);
-    const { file, mime } = slideItems[slide];
-    if (mime.includes(`image`) && file) {
-        d.elements[d.scopeFromArray([scope, `preloader`])].src = file;
+    const { url, mime } = slideItems[slide];
+    if (mime.includes(`image`) && url) {
+        d.elements[d.scopeFromArray([scope, `preloader`])].src = url;
     }
 };
 
 const displayX = function (currentSlide, scope) {
     const slideItems = slideItemsFromScope(scope);
-    const { file, mime, label, files } = slideItems[currentSlide];
+    const { url, mime, label, sources } = slideItems[currentSlide];
     d.feed(d.scopeFromArray([scope, `currentSlide`]), String(currentSlide));
     const image = d.elements[d.scopeFromArray([scope, `image`])];
     const picture = d.elements[d.scopeFromArray([scope, `picture`])];
@@ -73,18 +73,18 @@ const displayX = function (currentSlide, scope) {
     audio.hidden = true;
     
     if (mime.startsWith(`image`)) {
-        if (files) {
+        if (sources) {
             picture.hidden = false;
             let pictureInnerHtml = ``;
-            files.forEach((imageVersion, i) => {
-                const {mime, file, media} = imageVersion;
+            sources.forEach((imageVersion, i) => {
+                const {mime, url, media} = imageVersion;
                 let sourceHtml;
-                if (i + 1 < files.length) {
-                    sourceHtml = `<source srcset="${file}" media="${media}" type="${mime}">`;
+                if (i + 1 < sources.length) {
+                    sourceHtml = `<source srcset="${url}" media="${media}" type="${mime}">`;
 
                 } else {
                     // last source should be fallback image
-                    sourceHtml = `<img alt="${label}" src="${file}" type="${mime}">`;
+                    sourceHtml = `<img alt="${label}" src="${url}" type="${mime}">`;
                 }
                 pictureInnerHtml = `${pictureInnerHtml}${sourceHtml}`;
             });
@@ -92,25 +92,25 @@ const displayX = function (currentSlide, scope) {
         } else {
             image.alt = label;
             image.hidden = false;
-            image.src = file;
+            image.src = url;
         }
         video.pause();
         audio.pause();
     } else if (mime.startsWith(`video`)) {
         video.hidden = false;
-        video.src = file;
+        video.src = url;
         video.type = mime;
         audio.pause();
     } else if (mime.startsWith(`audio`)) {
         audio.hidden = false;
-        audio.src = file;
+        audio.src = url;
         audio.type = mime;
         video.pause();
     } else if (mime.startsWith(`text`)) {
         text.hidden = false;
         video.pause();
         audio.pause();
-        fetch(file).then(response => {
+        fetch(url).then(response => {
             if (!response.ok) {
                 throw e0;
             }
@@ -125,7 +125,7 @@ const displayX = function (currentSlide, scope) {
     if (d.get(d.scopeFromArray([scope, `isMain`])) && navigator.mediaSession) {
         document.title = `${initialTitle} ${label}`;
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: file,
+            title: url,
         });
     }
     const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute("multiple") !== null);
@@ -255,8 +255,8 @@ const augmentSelect = (id = ``, onChange=function(){}) => {
     d.feed(d.scopeFromArray([id, `virstellungSelect`]), slideItems[currentSlide].value);
     d.feed(d.scopeFromArray([id, `virstellungLabel`]), slideItems[currentSlide].label);
     const currentSelection = d.get(d.scopeFromArray([id, `virstellungSelect`])).split(",").map(function (value) {
-        return slideItems.findIndex(({file}) => {
-            return value === file;
+        return slideItems.findIndex(({url}) => {
+            return value === url;
         })
     });
     

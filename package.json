@@ -1,6 +1,6 @@
 {
   "name": "virstellung",
-  "version": "7.3.0",
+  "version": "8.0.0",
   "description": "Slide show",
   "license": "CC0-1.0",
   "type": "module",
@@ -8,7 +8,7 @@
   "scripts": {
     "lint-fix": "eslint --ignore-path .gitignore --fix .",
     "lint": "eslint --ignore-path .gitignore .",
-    "start": "node ./examples/server.js"
+    "start": "echo \"do cd ./examples && npm run\""
   },
   "optionalDependencies": {
     "dom99": "^26.1.1"

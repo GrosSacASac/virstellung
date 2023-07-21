@@ -39,8 +39,8 @@ const mediaFolder = "media";
 const preparedSlideItems = items.map(item => {
     return {
         label: item,
-        file: `./${mediaFolder}/${item}`,
-        fileAlone: item,
+        url: `./${mediaFolder}/${item}`,
+        file: item,
         mime: mime.getType(item),
     }
 });
@@ -57,7 +57,7 @@ const htmlCodeForAllSlides = preparedSlideItems.map((slideItem, i) => {
     <link media="screen" href="./virstellung.css" rel="stylesheet">
     </head><body>    
     ${await virstellung({
-        slideItems: preparedSlideItems, // array with {label, file, mime}
+        slideItems: preparedSlideItems, // array with {label, url, mime}
         currentSlide: i, // current slide
         generateHref, // href used in the links for next, previous
         previousLabel: undefined, // optional label string
@@ -88,7 +88,7 @@ Depends upon [dom99](https://www.npmjs.com/package/dom99)
 
 ## virstellung.js
 
-Alternative to virstellungAutoLaunch, does nothing by itself, exports a function `stellFir`. Use it with the same id as used before for virstellung function
+Alternative to virstellungAutoLaunch, does nothing by itself, exports a function `stellFir`. Use it with the same id as used before for virstellung function. To improve a select import `augmentSelect` instead
 
 ## virstellung.css
 
@@ -100,7 +100,7 @@ Serve it to inside `<link media="screen" href="./virstellung.css" rel="styleshee
 
 ### Multiple Image resolution
 
-If there are multiple resolutions or formats for 1 image you may instead of using file, use a files array, with object that have file, mime and media (breakpoints).
+If there are multiple resolutions or formats for 1 image you may instead of using url, use a sources array, with object that have url, mime and media (breakpoints).
 
 Make slideItems have items be like :
 
@@ -109,20 +109,20 @@ slideItems = [
 {
     label: `flower`,
     mime: `image`,
-    files: [
+    sources: [
         {
-            file: `./imgfull.jpg`,
+            url: `./imgfull.jpg`,
             media: `(min-width: 2000px)`,
             mime: `image/jpeg`,
         },
         {
-            file: `./goodenough.jpg`,
+            url: `./goodenough.jpg`,
             media: `(min-width: 1000px)`,
             mime: `image/jpeg`,
         },
         {
             // last should be fallback without media
-            file: `./fallback.jpg`,
+            url: `./fallback.jpg`,
             mime: `image/jpeg`,
         }
     ]
@@ -130,13 +130,26 @@ slideItems = [
 ];
 ```
 
-## select
+## selectImage
 
-Todo
+displays a select with all the images,
+if js is enabled and virstellung.js is run with the augmentSelect function then
+the select is replaced with a button and a hidden input
+the hidden input holds the value and sends it in the form as the select would.
+the button is displayed and when clicked opens a dialog to chose an image.
+Once chosen the button display and the hidden input value are updated
+
+```js
+const [putInsideLabel, putOutsideLabel, putOutsideForm] = selectImage(options, fileSelected=``, multiple=false);
+
+```
+
+The reason it returns 3 pieces of html code is that the slide show container has next and previous interactions that absorbs user input and messes with regular form and is probably invalid html
+
 
 ### Empty option, how to
 
-have an item with value set to empty string, and file point to an image that represents emptyness
+have an item with value set to empty string, and url point to an image that represents emptyness
 
 ## About
 
