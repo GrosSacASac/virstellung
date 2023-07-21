@@ -224,6 +224,8 @@ const server = http.createServer(async (request, response) => {
 const startServer = function () {
     server.listen(port);
     console.log(`Listening on ${port}
+http://localhost:${port}
+http://localhost:${port}/2
 `);
 };
 

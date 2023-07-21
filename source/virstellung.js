@@ -128,22 +128,22 @@ const displayX = function (currentSlide, scope) {
             title: url,
         });
     }
-    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute("multiple") !== null);
+    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute(`multiple`) !== null);
     if (multiple) {
         let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
         if (!currentSelection) {
             currentSelection = [];
         }
         const alreadySelected = currentSelection.includes(currentSlide);
-        d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle("selected", alreadySelected);
+        d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle(`selected`, alreadySelected);
     }
 };
 
 d.functions.confirmSelect = function(event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     const slideItems = slideItemsFromScope(scope);
-    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute("multiple") !== null);
-    const cancelling = (d.elements[d.scopeFromArray([scope, `virstellungSelect`])].returnValue === "");
+    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute(`multiple`) !== null);
+    const cancelling = (d.elements[d.scopeFromArray([scope, `virstellungSelect`])].returnValue === ``);
     if (cancelling) {
         return;
     }
@@ -151,20 +151,20 @@ d.functions.confirmSelect = function(event) {
         d.functions.optionalSelect(event);
         return;
     }
-    let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
+    const currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
     const values = currentSelection.map(function(index) {
         return slideItems[index].value;
-    })
+    });
     selectOnChange.get(d.elements[d.scopeFromArray([scope, `hiddenInput`])])(values);
     
     d.feed(d.scopeFromArray([scope, `virstellungLabel`]), `${currentSelection.length}`);
-    d.feed(d.scopeFromArray([scope, `virstellungSelect`]), values.join(","));
+    d.feed(d.scopeFromArray([scope, `virstellungSelect`]), values.join(`,`));
 };
 
 d.functions.optionalSelect = function(event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     const slideItems = slideItemsFromScope(scope);
-    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute("multiple") !== null);
+    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute(`multiple`) !== null);
     
     const currentSlide = Number(d.get(scope, `currentSlide`));
     d.feed(d.scopeFromArray([scope, `selected`]), currentSlide);
@@ -184,9 +184,9 @@ d.functions.optionalSelect = function(event) {
         currentSelection.splice(currentSelection.indexOf(currentSlide), 1);
 
     } else {
-        currentSelection.push(currentSlide)
+        currentSelection.push(currentSlide);
     }
-    d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle("selected", !alreadySelected);
+    d.elements[d.scopeFromArray([scope, `optionalSelect`])].classList.toggle(`selected`, !alreadySelected);
     d.feed(d.scopeFromArray([scope, `virstellungSelection`]), currentSelection);
     d.feed(d.scopeFromArray([scope, `count`]), ` (${currentSelection.length})`);
 };
@@ -197,11 +197,11 @@ d.functions.openVirstellungSelect = function (event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     lastScope = scope;
     const currentSlideSelected = Number(d.get(scope, `selected`));
-    displayX(currentSlideSelected, scope)
+    displayX(currentSlideSelected, scope);
     d.elements[d.scopeFromArray([scope, `virstellungSelect`])].showModal();
 };
 
-const stellFir = (id = ``, isMain=true) => {
+const stellFir = (id = ``, isMain = true) => {
     
     d.feed(id, {isMain});
     d.start({
@@ -227,14 +227,14 @@ const stellFir = (id = ``, isMain=true) => {
 
 const selectOnChange = new WeakMap();
 
-const augmentSelect = (id = ``, onChange=function(){}) => {
+const augmentSelect = (id = ``, onChange = function(){}) => {
     if (!supportsDialog) {
         return;
     }
     stellFir(id, false);
     // can only have 1 input per <label>
     const insideLabelNode = d.elements[d.scopeFromArray([id, `initialSelect`])].parentNode;
-    const multiple = (d.elements[d.scopeFromArray([id, `initialSelect`])].getAttribute("multiple") !== null);
+    const multiple = (d.elements[d.scopeFromArray([id, `initialSelect`])].getAttribute(`multiple`) !== null);
     d.elements[d.scopeFromArray([id, `initialSelect`])].remove();
     insideLabelNode.appendChild(d.elements[d.scopeFromArray([id, `hiddenButton`])]);
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
@@ -254,10 +254,10 @@ const augmentSelect = (id = ``, onChange=function(){}) => {
     d.feed(d.scopeFromArray([id, `selected`]), currentSlide);
     d.feed(d.scopeFromArray([id, `virstellungSelect`]), slideItems[currentSlide].value);
     d.feed(d.scopeFromArray([id, `virstellungLabel`]), slideItems[currentSlide].label);
-    const currentSelection = d.get(d.scopeFromArray([id, `virstellungSelect`])).split(",").map(function (value) {
+    const currentSelection = d.get(d.scopeFromArray([id, `virstellungSelect`])).split(`,`).map(function (value) {
         return slideItems.findIndex(({url}) => {
             return value === url;
-        })
+        });
     });
     
     d.feed(d.scopeFromArray([id, `virstellungSelection`]), currentSelection);
