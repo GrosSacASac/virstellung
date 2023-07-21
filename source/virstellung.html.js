@@ -5,8 +5,23 @@ const identity = function(x) {
     return x;
 };
 
+const pictureHtmlFromSources = (sources) => {
 
+    let pictureInnerHtml = ``;
+    sources.forEach((imageVersion, i) => {
+        const {mime, url, media} = imageVersion;
+        let sourceHtml;
+        if (i + 1 < url.length) {
+            sourceHtml = `<source srcset="${url}" media="${media}" type="${mime}">`;
 
+        } else {
+            // last source should be fallback image
+            sourceHtml = `<img alt="${label}" src="${url}" type="${mime}">`;
+        }
+        pictureInnerHtml = `${pictureInnerHtml}${sourceHtml}`;
+    });
+    return pictureInnerHtml;
+};
 const virstellungBase = ({
     slideItems,
     currentSlide = 0,
@@ -45,18 +60,7 @@ const virstellungBase = ({
     const {url, mime, label, sources} = slideItems[currentSlide];
     if (mime.startsWith(`image`)) {
         if (sources) {
-            sources.forEach((imageVersion, i) => {
-                const {mime, url, media} = imageVersion;
-                let sourceHtml;
-                if (i + 1 < url.length) {
-                    sourceHtml = `<source srcset="${url}" media="${media}" type="${mime}">`;
-
-                } else {
-                    // last source should be fallback image
-                    sourceHtml = `<img alt="${label}" src="${url}" type="${mime}">`;
-                }
-                pictureInnerHtml = `${pictureInnerHtml}${sourceHtml}`;
-            });
+            pictureInnerHtml = pictureHtmlFromSources(sources);
             
             pictureHidden = ``;
         } else {

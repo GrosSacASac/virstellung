@@ -33,7 +33,7 @@ export default [{
     input: `./selectHelper.js`,
     plugins: [resolve()],
     treeshake: {
-        moduleSideEffects: true,
+    //     moduleSideEffects: true,
         moduleSideEffects: `no-external`,
     },
 
