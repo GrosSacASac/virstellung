@@ -128,7 +128,7 @@ const displayX = function (currentSlide, scope) {
             title: url,
         });
     }
-    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute(`multiple`) !== null);
+    const multiple = Boolean(d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute(`multiple`));
     if (multiple) {
         let currentSelection = d.get(d.scopeFromArray([scope, `virstellungSelection`]));
         if (!currentSelection) {
@@ -142,7 +142,7 @@ const displayX = function (currentSlide, scope) {
 d.functions.confirmSelect = function(event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     const slideItems = slideItemsFromScope(scope);
-    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute(`multiple`) !== null);
+    const multiple = Boolean(d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute(`multiple`));
     const cancelling = (d.elements[d.scopeFromArray([scope, `virstellungSelect`])].returnValue === ``);
     if (cancelling) {
         return;
@@ -164,7 +164,7 @@ d.functions.confirmSelect = function(event) {
 d.functions.optionalSelect = function(event) {
     const scope = d.scopeFromEvent(event) ?? lastScope;
     const slideItems = slideItemsFromScope(scope);
-    const multiple = (d.elements[d.scopeFromArray([scope, `initialSelect`])].getAttribute(`multiple`) !== null);
+    const multiple = Boolean(d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute(`multiple`));
     
     const currentSlide = Number(d.get(scope, `currentSlide`));
     d.feed(d.scopeFromArray([scope, `selected`]), currentSlide);
@@ -234,7 +234,7 @@ const augmentSelect = (id = ``, onChange = function(){}) => {
     stellFir(id, false);
     // can only have 1 input per <label>
     const insideLabelNode = d.elements[d.scopeFromArray([id, `initialSelect`])].parentNode;
-    const multiple = (d.elements[d.scopeFromArray([id, `initialSelect`])].getAttribute(`multiple`) !== null);
+    const multiple = Boolean(d.elements[d.scopeFromArray([scope, `initialSelect`])]?.getAttribute(`multiple`));
     d.elements[d.scopeFromArray([id, `initialSelect`])].remove();
     insideLabelNode.appendChild(d.elements[d.scopeFromArray([id, `hiddenButton`])]);
     d.elements[d.scopeFromArray([id, `hiddenButton`])].hidden = false;
