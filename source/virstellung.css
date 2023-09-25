@@ -83,7 +83,7 @@
 }
 
 .hoverSelect {
-	transition: transform .1s linear;
+	transition: transform .086s linear;
 	color: #fff;
 	position: absolute;
 	top: 0;
