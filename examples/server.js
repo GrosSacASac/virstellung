@@ -1,4 +1,4 @@
-
+import { setTimeout as setTimeoutPromise } from "node:timers/promises";
 import http from "node:http";
 import fs from "node:fs";
 import url from "node:url";
@@ -13,7 +13,7 @@ import { virstellung, selectImage } from "../source/virstellung.html.js";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
+const delay = 0; // static delay of media
 const cliArgs = parseCli();
 let {baseURL} = cliArgs;
 baseURL = new URL(baseURL);
@@ -170,7 +170,9 @@ const handleDynamicPages =  async (request, response) => {
 const handleStatic = (request, response) => {
     if (staticResponses.has(request.url)) {
         response.writeHead(httpCodeFromText[`OK`], {[`Content-Type`]: staticResponses.get(request.url)[`Content-Type`]});
-        fs.createReadStream(staticResponses.get(request.url)[`file`]).pipe(response);
+        setTimeoutPromise(delay).then(() => {
+            fs.createReadStream(staticResponses.get(request.url)[`file`]).pipe(response);
+        });
         return true;
     }
 };
